@@ -3,9 +3,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class fm_createdir_event implements ActionListener {
-	major mc;
+	filemanager mc;
 	fm_filestree ft;
-	public fm_createdir_event(major m,fm_filestree f){
+	public fm_createdir_event(filemanager m, fm_filestree f){
 		mc=m;
 		ft=f;
 	}

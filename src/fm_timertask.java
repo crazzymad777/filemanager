@@ -6,11 +6,11 @@ import javax.swing.tree.TreePath;
 
 
 public class fm_timertask extends TimerTask {
-	major mc;
+	filemanager mc;
 	fm_filestree ft;
 	TreePath path;
 	int row;
-	public fm_timertask(major m,fm_filestree f,int i,TreePath t) {
+	public fm_timertask(filemanager m, fm_filestree f, int i, TreePath t) {
 		mc=m;
 		ft=f;
 		row=i;

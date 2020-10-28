@@ -11,7 +11,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 public class fm_renderer extends JLabel implements TreeCellRenderer {
 
-	public fm_renderer(major m) {
+	public fm_renderer(filemanager m) {
 		mc=m;
 		
 		ImageIcon openIcon = new ImageIcon(getClass().getResource("/images/ofolder.png"));
@@ -26,7 +26,7 @@ public class fm_renderer extends JLabel implements TreeCellRenderer {
 	@Override
 	public Component getTreeCellRendererComponent(JTree arg0, Object val,boolean selected,boolean expanded, boolean leaf,int row, boolean hasFocus) {
 		String text="Root Directory";
-		if(val.toString()!="") text=val.toString();
+		if(!val.toString().equals("")) text=val.toString();
 		setIcon(iclosed_folder);
 		if(leaf){
 			setIcon(ifile);
@@ -51,7 +51,7 @@ public class fm_renderer extends JLabel implements TreeCellRenderer {
 	ImageIcon iclosed_folder; 
 	ImageIcon refresh_folder; 
 	Icon ifile=UIManager.getIcon("Tree.leafIcon"); 
-	major mc;
+	filemanager mc;
 	Integer loading_row=-1;
 	Timer timer=new Timer();
 }

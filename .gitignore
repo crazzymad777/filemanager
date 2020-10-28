@@ -1,1 +1,9 @@
+#ignore images
 src/images/*
+
+#ignore idea files
+.idea
+filemanager_4.iml
+
+#ignore build
+build

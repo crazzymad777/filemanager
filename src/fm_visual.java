@@ -7,7 +7,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 public class fm_visual extends JFrame {
-    public fm_visual(major m){
+    public fm_visual(filemanager m){
 	    super("Filemanger");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    setBounds(100, 100, 800, 500);
@@ -66,7 +66,7 @@ public class fm_visual extends JFrame {
     JButton btnCreateFile;
     JButton cpath;
     fm_filestree ft;
-    major mc;
+    filemanager mc;
     JScrollPane filespanel;
     JTextPane label;
     fm_three_events event;

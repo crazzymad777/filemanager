@@ -8,9 +8,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 public class fm_three_events implements TreeSelectionListener,TreeWillExpandListener {
-	major mc;
+	filemanager mc;
 	fm_filestree ft;
-	public fm_three_events(major m,fm_filestree f){
+	public fm_three_events(filemanager m, fm_filestree f){
 		mc=m;
 		ft=f;
 	}
@@ -88,10 +88,10 @@ public class fm_three_events implements TreeSelectionListener,TreeWillExpandList
 		if(path!=null){
 			int number=path.getPathCount();
 			Object[] o=path.getPath();
-			String data=new String("");
+			String data="";
 			for(int i=1;i<number;i++){
 				DefaultMutableTreeNode node=(DefaultMutableTreeNode)o[i];
-				data+=node.getUserObject().toString();
+				data = data + node.getUserObject().toString();
 			}
 			if(number==1) data="~";
 			if(bSet) ft.SetCurrentPath(data);

@@ -10,12 +10,12 @@ public class fm_fileinfo {
 	public String getData(){
 		return data;
 	}
-	public fm_fileinfo(Path p,major m){
+	public fm_fileinfo(Path p, filemanager m){
 		current_path=p;
 		mc=m;
-		data=new String("<html><table>");
+		data="<html><table>";
 		File f=new File("/");
-		String files[];
+		String[] files;
 		if(current_path==null) {
 			files=mc.getRootDirectories();
 		}else{
@@ -95,7 +95,7 @@ public class fm_fileinfo {
 			data+="</tr>";
 		}
 	}
-	private major mc;
+	private filemanager mc;
 	private Path current_path;
 	private File current_file;
 	private String data;

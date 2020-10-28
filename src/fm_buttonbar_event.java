@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JButton;
@@ -15,16 +14,16 @@ import javax.swing.tree.TreePath;
 import static java.nio.file.StandardCopyOption.*;
 
 public class fm_buttonbar_event implements ActionListener {
-	major mc;
+	filemanager mc;
 	fm_filestree ft;
 	String sname;
-	public fm_buttonbar_event(major m,fm_filestree f){
+	public fm_buttonbar_event(filemanager m, fm_filestree f){
 		mc=m;
 		ft=f;
 	}
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if(ae.getActionCommand()=="Create"){
+		if(ae.getActionCommand().equals("Create")){
 			String name = mc.ShowInputMessage("New file", "Enter name of new file:");
 			if(name==null) return;
 			String newpath;
@@ -46,7 +45,7 @@ public class fm_buttonbar_event implements ActionListener {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}else if(ae.getActionCommand()=="Rename"){
+		}else if(ae.getActionCommand().equals("Rename")){
 			String name = mc.ShowInputMessage("Rename", "Enter new name file/directory:");
 			if(name==null) return;
 			if(ft.current_path==null) return;
@@ -73,7 +72,7 @@ public class fm_buttonbar_event implements ActionListener {
 				ft.renameNode(ft.internalTree.getSelectionPath(),name);
 				ft.SetCurrentPath(file2.toString());
 			}
-		}else if(ae.getActionCommand()=="Move"){
+		}else if(ae.getActionCommand().equals("Move")){
 			if(ft.current_path!=null){
 				JFrame someframe=new JFrame("Move "+ft.current_path+" to");
 				someframe.setBounds(100, 100, 230, 540);
@@ -89,7 +88,7 @@ public class fm_buttonbar_event implements ActionListener {
 				
 				someframe.setVisible(true);
 			}
-		}else if(ae.getActionCommand()=="Copy"){
+		}else if(ae.getActionCommand().equals("Copy")){
 			if(ft.current_path!=null){
 				JFrame someframe=new JFrame("Copy "+ft.current_path+" to");
 				someframe.setBounds(100, 100, 230, 540);
@@ -105,7 +104,7 @@ public class fm_buttonbar_event implements ActionListener {
 				
 				someframe.setVisible(true);
 			}
-		}else if(ae.getActionCommand()=="Remove"){
+		}else if(ae.getActionCommand().equals("Remove")){
 			if(ft.current_path!=null){
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure that you want to delete "+ft.current_path+"?","Confirm",JOptionPane.YES_NO_OPTION);
 				if(dialogResult == JOptionPane.YES_OPTION){
@@ -118,12 +117,12 @@ public class fm_buttonbar_event implements ActionListener {
 		    		}
 				}
 			}
-		}else if(ae.getActionCommand()=="Copy to"){
+		}else if(ae.getActionCommand().equals("Copy to")){
 			if(ft.current_path!=null){
 				if(sname==null) return;
 				String newpath;
 				if(ft.current_path==null){
-					newpath="/"+Paths.get(sname).toFile().getName();;
+					newpath="/"+Paths.get(sname).toFile().getName();
 				}else{
 					newpath=ft.current_path+"/"+Paths.get(sname).toFile().getName();
 				}
@@ -134,12 +133,12 @@ public class fm_buttonbar_event implements ActionListener {
 				}
 			}
 			ft.frame.dispose();
-		}else if(ae.getActionCommand()=="Move to"){
+		}else if(ae.getActionCommand().equals("Move to")){
 			if(ft.current_path!=null){
 				if(sname==null) return;
 				String newpath;
 				if(ft.current_path==null){
-					newpath="/"+Paths.get(sname).toFile().getName();;
+					newpath="/"+Paths.get(sname).toFile().getName();
 				}else{
 					newpath=ft.current_path+"/"+Paths.get(sname).toFile().getName();
 				}

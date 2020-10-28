@@ -5,9 +5,9 @@ import java.nio.file.Path;
 import javax.swing.tree.TreePath;
 
 public class fm_cpath_event implements ActionListener {
-	major mc;
+	filemanager mc;
 	fm_filestree ft;
-	public fm_cpath_event(major m,fm_filestree f){
+	public fm_cpath_event(filemanager m, fm_filestree f){
 		mc=m;
 		ft=f;
 	}

@@ -17,7 +17,7 @@ import javax.swing.tree.TreeSelectionModel;
 public class fm_filestree {
 	JFrame frame;
 	String titleframe;
-	public fm_filestree(major m,JFrame f){
+	public fm_filestree(filemanager m, JFrame f){
 		mc=m;
 		frame=f;
 		titleframe=f.getTitle();
@@ -84,15 +84,13 @@ public class fm_filestree {
 		if(mainframe){
 			mc.fm_frame.cpath.setText(text);
 		}
-		if(text=="~") {
+		if(text.equals("~")) {
 			current_path=null;
 			if(mainframe) mc.fm_frame.btnCreateFile.setEnabled(true);
 		}else {
 			current_path=Paths.get(text);
-			if(mainframe){
-				if(current_path.toFile().isFile()) mc.fm_frame.btnCreateFile.setEnabled(false);
-				else mc.fm_frame.btnCreateFile.setEnabled(true);
-			}
+			if(mainframe) if (current_path.toFile().isFile()) mc.fm_frame.btnCreateFile.setEnabled(false);
+			else mc.fm_frame.btnCreateFile.setEnabled(true);
 		}
 		if(mainframe) mc.fm_frame.label.setText(new fm_fileinfo(current_path,mc).getData());
 		renderer.open_row=internalTree.getRowForPath(LastTreePath);
@@ -128,7 +126,6 @@ public class fm_filestree {
             MutableTreeNode parent = (MutableTreeNode)(currentNode.getParent());
             if (parent != null) {
                 treeModel.removeNodeFromParent(currentNode);
-                return;
             }
         }
     }
@@ -140,18 +137,17 @@ public class fm_filestree {
             if (parent != null) {
             	currentNode.setUserObject(obj);
             	treeModel.nodeChanged(currentNode);
-                return;
             }
         }
     }
 	DefaultTreeModel treeModel;
     DefaultMutableTreeNode root;
 	TreePath LastTreePath=null;
-	JTree internalTree=null;
+	JTree internalTree;
 	JButton btnCreate;
 	JScrollPane threepanel;
 	fm_three_events event;
 	fm_renderer renderer;
     Path current_path=null;
-	major mc;
+	filemanager mc;
 }

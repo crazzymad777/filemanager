@@ -9,23 +9,17 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class major{
+public class filemanager {
 	public static void main(String[] args) {
-		major m=new major();
+		filemanager m=new filemanager();
 		m.fm_frame.ft.SetCurrentPath("~");
 	}
-	public major(){
+	public filemanager(){
         fm_frame=new fm_visual(this);
 	}
 	public String[] getDirectories(String name){
 		File file = new File(name);
-		String[] directories = file.list(new FilenameFilter() {
-			@Override
-			public boolean accept(File current, String name) {
-			return new File(current, name).isDirectory();
-			}
-		});
-		return directories;
+		return file.list((current, name1) -> new File(current, name1).isDirectory());
 	}
 	public String[] getRootDirectories(){
 		FileSystem fileSystem = FileSystems.getDefault();

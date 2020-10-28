@@ -5,8 +5,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class fm_TreeModelListener implements TreeModelListener {
 	fm_filestree ft;
-	major mc;
-	public fm_TreeModelListener(major m,fm_filestree f) {
+	filemanager mc;
+	public fm_TreeModelListener(filemanager m, fm_filestree f) {
 		mc=m;
 		ft=f;
 	}
