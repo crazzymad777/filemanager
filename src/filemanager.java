@@ -1,5 +1,3 @@
-import java.io.File;
-import java.io.FilenameFilter;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -17,24 +15,20 @@ public class filemanager {
 	public filemanager(){
         fm_frame=new fm_visual(this);
 	}
-	public String[] getDirectories(String name){
-		File file = new File(name);
-		return file.list((current, name1) -> new File(current, name1).isDirectory());
-	}
 	public String[] getRootDirectories(){
 		FileSystem fileSystem = FileSystems.getDefault();
 		Iterable<Path> dirs = fileSystem.getRootDirectories();
-		List<String> somelist = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
         for (Path name : dirs) {
-        	somelist.add(name.toString());
+        	list.add(name.toString());
         }
-        String[] retArray = new String[ somelist.size() ];
-        somelist.toArray( retArray );
+        String[] retArray = new String[ list.size() ];
+        list.toArray( retArray );
         return retArray;
 	}
 	public String ShowInputMessage(String title,String body){
-		JFrame someframe=new JFrame(title);
-		return JOptionPane.showInputDialog(someframe, body);
+		JFrame frame=new JFrame(title);
+		return JOptionPane.showInputDialog(frame, body);
 	}
 	public void ShowMessage(String infoMessage, String titleBar)
     {

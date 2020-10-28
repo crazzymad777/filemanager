@@ -89,15 +89,14 @@ public class fm_filestree {
 			if(mainframe) mc.fm_frame.btnCreateFile.setEnabled(true);
 		}else {
 			current_path=Paths.get(text);
-			if(mainframe) if (current_path.toFile().isFile()) mc.fm_frame.btnCreateFile.setEnabled(false);
-			else mc.fm_frame.btnCreateFile.setEnabled(true);
+			if(mainframe) mc.fm_frame.btnCreateFile.setEnabled(!current_path.toFile().isFile());
 		}
 		if(mainframe) mc.fm_frame.label.setText(new fm_fileinfo(current_path,mc).getData());
 		renderer.open_row=internalTree.getRowForPath(LastTreePath);
 	}
-	public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,
-		Object child, 
-		boolean shouldBeVisible,boolean bchild) {
+	public void addObject(DefaultMutableTreeNode parent,
+						  Object child,
+						  boolean shouldBeVisible, boolean bchild) {
 		DefaultMutableTreeNode childNode = 
 		new DefaultMutableTreeNode(child,bchild);
 		
@@ -117,7 +116,6 @@ public class fm_filestree {
 		if (shouldBeVisible) {
 			internalTree.scrollPathToVisible(new TreePath(childNode.getPath()));
 		}
-		return childNode;
 	}
 	public void removeNode(TreePath tp) {
         if (tp != null) {

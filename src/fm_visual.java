@@ -69,6 +69,5 @@ public class fm_visual extends JFrame {
     filemanager mc;
     JScrollPane filespanel;
     JTextPane label;
-    fm_three_events event;
-    fm_buttonbar_event button_event;
+	fm_buttonbar_event button_event;
 }

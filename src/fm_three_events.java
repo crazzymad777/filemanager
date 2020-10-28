@@ -23,23 +23,19 @@ public class fm_three_events implements TreeSelectionListener,TreeWillExpandList
 		}else if(!node.isLeaf() || node.getAllowsChildren()){
 			if(ft.internalTree.isExpanded(path)){
 				if(node.children().hasMoreElements()){
-					if(path != null) {
-						ft.LastTreePath=path;
-						SyncPaths(path,true);
-					}
+					ft.LastTreePath=path;
+					SyncPaths(path,true);
 				}
 			}else{
-				if(path != null) {
-					if(!node.isLeaf() || node.getAllowsChildren()){
-						int newrow=ft.internalTree.getRowForPath(path);
-						if(ft.renderer.loading_row==-1){
-							ft.renderer.loading_row=newrow;
-						}else if(ft.renderer.loading_row!=newrow){
-							ft.renderer.loading_row=newrow;
-						}
-						ft.renderer.timer=new Timer();
-						ft.renderer.timer.schedule(new fm_timertask(mc,ft,newrow,path), 2000);
+				if(!node.isLeaf() || node.getAllowsChildren()){
+					int new_row=ft.internalTree.getRowForPath(path);
+					if(ft.renderer.loading_row==-1){
+						ft.renderer.loading_row=new_row;
+					}else if(ft.renderer.loading_row!=new_row){
+						ft.renderer.loading_row=new_row;
 					}
+					ft.renderer.timer=new Timer();
+					ft.renderer.timer.schedule(new fm_timertask(mc,ft,new_row,path), 2000);
 				}
 			}
 		}else{
@@ -71,16 +67,16 @@ public class fm_three_events implements TreeSelectionListener,TreeWillExpandList
 			if(path.getParentPath()==null){
 				ft.SetCurrentPath("~");
 			}else{
-				int newrow=ft.internalTree.getRowForPath(path);
+				int new_row=ft.internalTree.getRowForPath(path);
 				if(ft.renderer.loading_row==-1){
-					ft.renderer.loading_row=newrow;
-				}else if(ft.renderer.loading_row!=newrow){
-					ft.renderer.loading_row=newrow;
+					ft.renderer.loading_row=new_row;
+				}else if(ft.renderer.loading_row!=new_row){
+					ft.renderer.loading_row=new_row;
 				}
 				ft.renderer.timer.cancel();
 				ft.renderer.timer.purge();
 				ft.renderer.timer=new Timer();
-				ft.renderer.timer.schedule(new fm_timertask(mc,ft,newrow,path), 2000);
+				ft.renderer.timer.schedule(new fm_timertask(mc,ft,new_row,path), 2000);
 			}
 		}
 	}
@@ -88,14 +84,14 @@ public class fm_three_events implements TreeSelectionListener,TreeWillExpandList
 		if(path!=null){
 			int number=path.getPathCount();
 			Object[] o=path.getPath();
-			String data="";
+			StringBuilder data= new StringBuilder();
 			for(int i=1;i<number;i++){
 				DefaultMutableTreeNode node=(DefaultMutableTreeNode)o[i];
-				data = data + node.getUserObject().toString();
+				data.append(node.getUserObject().toString());
 			}
-			if(number==1) data="~";
-			if(bSet) ft.SetCurrentPath(data);
-			return data;
+			if(number==1) data = new StringBuilder("~");
+			if(bSet) ft.SetCurrentPath(data.toString());
+			return data.toString();
 		}
 		return "/";
 	}

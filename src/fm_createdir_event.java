@@ -20,8 +20,8 @@ public class fm_createdir_event implements ActionListener {
 			newpath=ft.current_path+"/"+name;
 		}
 		File newfolder=new File(newpath);
-		newfolder.mkdir();
-		if(newfolder.exists()){
+
+		if(newfolder.mkdir()){
 			ft.addObject(null, newfolder.getName()+"\\", true, true);
 			ft.event.SyncPaths(ft.internalTree.getSelectionPath(), true);
 		}else{
