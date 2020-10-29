@@ -28,7 +28,7 @@ public class TimerTask extends java.util.TimerTask {
 				for (String x : directories) {
 					File file = new File(data+x);
 					if(!file.isFile()){
-						filesTree.addObject(node,x+"\\",true,true);
+						filesTree.addObject(node,x+File.pathSeparator,true,true);
 					}else{
 						filesTree.addObject(node,x,true,false);
 					}
