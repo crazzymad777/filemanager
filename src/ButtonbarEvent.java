@@ -13,34 +13,35 @@ import javax.swing.tree.TreePath;
 import static java.nio.file.StandardCopyOption.*;
 
 public class ButtonbarEvent implements ActionListener {
-	Filemanager mc;
-	FilesTree ft;
-	String sname;
-	public ButtonbarEvent(Filemanager m, FilesTree f){
-		mc=m;
-		ft=f;
+	Filemanager filemanager;
+	FilesTree filesTree;
+	String currentPath;
+
+	public ButtonbarEvent(Filemanager filemanager, FilesTree filesTree){
+		this.filemanager = filemanager;
+		this.filesTree = filesTree;
 	}
 	@Override
-	public void actionPerformed(ActionEvent ae) {
-		switch (ae.getActionCommand()) {
+	public void actionPerformed(ActionEvent actionEvent) {
+		switch (actionEvent.getActionCommand()) {
 			case "Create": {
-				String name = mc.ShowInputMessage("New file", "Enter name of new file:");
+				String name = filemanager.ShowInputMessage("New file", "Enter name of new file:");
 				if (name == null) return;
-				String newpath;
-				if (ft.current_path == null) {
-					newpath = "/" + name;
+				String newPath;
+				if (filesTree.current_path == null) {
+					newPath = "/" + name;
 				} else {
-					newpath = ft.current_path + "/" + name;
+					newPath = filesTree.current_path + "/" + name;
 				}
-				File newfile = new File(newpath);
+				File newFile = new File(newPath);
 				try {
-					if (newfile.createNewFile()) {
-						if (ft != null) {
-							ft.addObject(null, newfile.getName(), true, false);
-							ft.event.SyncPaths(ft.internalTree.getSelectionPath(), true);
+					if (newFile.createNewFile()) {
+						if (filesTree != null) {
+							filesTree.addObject(null, newFile.getName(), true, false);
+							filesTree.event.SyncPaths(filesTree.internalTree.getSelectionPath(), true);
 						}
 					} else {
-						mc.ShowMessage("Failed to create file", "Couldn't create file.");
+						filemanager.ShowMessage("Failed to create file", "Couldn't create file.");
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -48,105 +49,105 @@ public class ButtonbarEvent implements ActionListener {
 				break;
 			}
 			case "Rename": {
-				String name = mc.ShowInputMessage("Rename", "Enter new name file/directory:");
+				String name = filemanager.ShowInputMessage("Rename", "Enter new name file/directory:");
 				if (name == null) return;
-				if (ft.current_path == null) return;
+				if (filesTree.current_path == null) return;
 
-				String newpath;
-				if (!ft.current_path.toFile().isFile()) {
-					newpath = ft.current_path + "/" + name;
+				String newPath;
+				if (!filesTree.current_path.toFile().isFile()) {
+					newPath = filesTree.current_path + "/" + name;
 				} else {
-					newpath = ft.current_path.getParent().toString() + "/" + name;
+					newPath = filesTree.current_path.getParent().toString() + "/" + name;
 				}
 
-				File file = ft.current_path.toFile();
-				File file2 = new File(newpath);
+				File file = filesTree.current_path.toFile();
+				File file2 = new File(newPath);
 				if (file2.exists()) {
-					mc.ShowMessage("Failed to rename file", "File " + name + " exist.");
+					filemanager.ShowMessage("Failed to rename file", "File " + name + " exist.");
 				} else if (!file.renameTo(file2)) {
-					mc.ShowMessage("Failed to rename file", "Couldn't rename file " + ft.current_path + " to " + newpath + ".");
+					filemanager.ShowMessage("Failed to rename file", "Couldn't rename file " + filesTree.current_path + " to " + newPath + ".");
 				} else {
 					//ft.LastTreePath=ft.internalTree.getSelectionPath().getParentPath().pathByAddingChild(name);
-					ft.renameNode(ft.internalTree.getSelectionPath(), name);
-					ft.SetCurrentPath(file2.toString());
+					filesTree.renameNode(filesTree.internalTree.getSelectionPath(), name);
+					filesTree.SetCurrentPath(file2.toString());
 				}
 				break;
 			}
 			case "Move":
-				if (ft.current_path != null) {
-					JFrame someframe = new JFrame("Move " + ft.current_path + " to");
-					someframe.setBounds(100, 100, 230, 540);
-					someframe.setLayout(null);
+				if (filesTree.current_path != null) {
+					JFrame frame = new JFrame("Move " + filesTree.current_path + " to");
+					frame.setBounds(100, 100, 230, 540);
+					frame.setLayout(null);
 
-					FilesTree ft2 = new FilesTree(mc, someframe, null);
+					FilesTree ft2 = new FilesTree(filemanager, frame, null);
 					JButton btnMove = new JButton("Move to");
 					btnMove.setBounds(10, 470, 200, 20);
-					ButtonbarEvent be = new ButtonbarEvent(mc, ft2);
-					be.sname = ft.current_path.toString();
-					btnMove.addActionListener(be);
-					someframe.add(btnMove);
+					ButtonbarEvent buttonEvent = new ButtonbarEvent(filemanager, ft2);
+					buttonEvent.currentPath = filesTree.current_path.toString();
+					btnMove.addActionListener(buttonEvent);
+					frame.add(btnMove);
 
-					someframe.setVisible(true);
+					frame.setVisible(true);
 				}
 				break;
 			case "Copy":
-				if (ft.current_path != null) {
-					JFrame someframe = new JFrame("Copy " + ft.current_path + " to");
-					someframe.setBounds(100, 100, 230, 540);
-					someframe.setLayout(null);
+				if (filesTree.current_path != null) {
+					JFrame frame = new JFrame("Copy " + filesTree.current_path + " to");
+					frame.setBounds(100, 100, 230, 540);
+					frame.setLayout(null);
 
-					FilesTree ft2 = new FilesTree(mc, someframe, null);
+					FilesTree ft2 = new FilesTree(filemanager, frame, null);
 					JButton btnCopy = new JButton("Copy to");
 					btnCopy.setBounds(10, 470, 200, 20);
-					ButtonbarEvent be = new ButtonbarEvent(mc, ft2);
-					be.sname = ft.current_path.toString();
+					ButtonbarEvent be = new ButtonbarEvent(filemanager, ft2);
+					be.currentPath = filesTree.current_path.toString();
 					btnCopy.addActionListener(be);
-					someframe.add(btnCopy);
+					frame.add(btnCopy);
 
-					someframe.setVisible(true);
+					frame.setVisible(true);
 				}
 				break;
 			case "Remove":
-				if (ft.current_path != null) {
-					int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure that you want to delete " + ft.current_path + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+				if (filesTree.current_path != null) {
+					int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure that you want to delete " + filesTree.current_path + "?", "Confirm", JOptionPane.YES_NO_OPTION);
 					if (dialogResult == JOptionPane.YES_OPTION) {
-						File dfile = new File(ft.current_path.toString());
-						if (dfile.delete()) {
-							TreePath tp = ft.LastTreePath;
-							ft.removeNode(tp);
+						File file = new File(filesTree.current_path.toString());
+						if (file.delete()) {
+							TreePath treePath = filesTree.LastTreePath;
+							filesTree.removeNode(treePath);
 						} else {
-							mc.ShowMessage("Failed to delete file", "Couldn't delete file " + ft.current_path + ".");
+							filemanager.ShowMessage("Failed to delete file", "Couldn't delete file " + filesTree.current_path + ".");
 						}
 					}
 				}
 				break;
 			case "Copy to":
-				if (ft.current_path != null) {
-					if (sname == null) return;
-					String newpath;
-					newpath = ft.current_path + "/" + Paths.get(sname).toFile().getName();
+				if (filesTree.current_path != null) {
+					if (currentPath == null) return;
+					String newPath;
+					newPath = filesTree.current_path + "/" + Paths.get(currentPath).toFile().getName();
 					try {
-						Files.copy(Paths.get(sname), Paths.get(newpath), COPY_ATTRIBUTES);
+						Files.copy(Paths.get(currentPath), Paths.get(newPath), COPY_ATTRIBUTES);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-				ft.frame.dispose();
+				filesTree.frame.dispose();
 				break;
 			case "Move to":
-				if (ft.current_path != null) {
-					if (sname == null) return;
-					String newpath;
-					newpath = ft.current_path + "/" + Paths.get(sname).toFile().getName();
+				if (filesTree.current_path != null) {
+					if (currentPath == null) return;
+					String newPath;
+					newPath = filesTree.current_path + "/" + Paths.get(currentPath).toFile().getName();
 					try {
-						if (!(new File(newpath).exists())) {
-							Files.move(Paths.get(sname), Paths.get(newpath));
+						if (!(new File(newPath).exists())) {
+							Files.move(Paths.get(currentPath), Paths.get(newPath));
 						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
-				ft.frame.dispose();
+				filesTree.frame.dispose();
 				break;
 		}
 	}

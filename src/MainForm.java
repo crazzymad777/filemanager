@@ -3,8 +3,8 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class MainForm {
-    public MainForm(Filemanager m) {
-        mc = m;
+    public MainForm(Filemanager filemanager) {
+        this.filemanager = filemanager;
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -12,26 +12,26 @@ public class MainForm {
         frame.setTitle("Filemanager");
 
         frame.setContentPane(panel1);
-        ft = new FilesTree(mc, frame, side_panel);
+        filesTree = new FilesTree(filemanager, frame, side_panel);
         frame.setVisible(true);
         frame.setSize(800, 500);
 
         // Handle events
-        button_event = new ButtonbarEvent(mc, ft);
-        PATHButton.addActionListener(new CurrentPathEvent(mc, ft));
-        createButton.addActionListener(button_event);
-        removeButton.addActionListener(button_event);
-        renameButton.addActionListener(button_event);
-        moveButton.addActionListener(button_event);
-        copyButton.addActionListener(button_event);
+        buttonEvent = new ButtonbarEvent(filemanager, filesTree);
+        PathButton.addActionListener(new CurrentPathEvent(filemanager, filesTree));
+        createButton.addActionListener(buttonEvent);
+        removeButton.addActionListener(buttonEvent);
+        renameButton.addActionListener(buttonEvent);
+        moveButton.addActionListener(buttonEvent);
+        copyButton.addActionListener(buttonEvent);
     }
 
-    ButtonbarEvent button_event;
-    FilesTree ft;
-    Filemanager mc;
+    ButtonbarEvent buttonEvent;
+    Filemanager filemanager;
+    FilesTree filesTree;
 
     public JButton getCurrentPath() {
-        return PATHButton;
+        return PathButton;
     }
 
     public JTextPane getTextPane() {
@@ -45,7 +45,7 @@ public class MainForm {
     private JPanel panel1;
     private JTree tree1;
     private JButton createDirectoryButton;
-    private JButton PATHButton;
+    private JButton PathButton;
     private JButton createButton;
     private JButton renameButton;
     private JButton moveButton;
@@ -87,9 +87,9 @@ public class MainForm {
         panel2.setAlignmentX(0.0f);
         panel2.setAlignmentY(0.0f);
         panel1.add(panel2, BorderLayout.CENTER);
-        PATHButton = new JButton();
-        PATHButton.setText("PATH");
-        panel2.add(PATHButton, BorderLayout.NORTH);
+        PathButton = new JButton();
+        PathButton.setText("PATH");
+        panel2.add(PathButton, BorderLayout.NORTH);
         final JScrollPane scrollPane1 = new JScrollPane();
         scrollPane1.setInheritsPopupMenu(false);
         scrollPane1.setMinimumSize(new Dimension(250, 375));

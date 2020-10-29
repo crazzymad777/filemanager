@@ -4,30 +4,31 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 
 public class FilesTreeModelListener implements TreeModelListener {
-	FilesTree ft;
-	Filemanager mc;
-	public FilesTreeModelListener(Filemanager m, FilesTree f) {
-		mc=m;
-		ft=f;
+	Filemanager filemanager;
+	FilesTree filesTree;
+
+	public FilesTreeModelListener(Filemanager filemanager, FilesTree filesTree) {
+		this.filemanager = filemanager;
+		this.filesTree = filesTree;
 	}
 	@Override
-	public void treeNodesChanged(TreeModelEvent e) {
+	public void treeNodesChanged(TreeModelEvent treeModelEvent) {
 		DefaultMutableTreeNode node;
-        node = (DefaultMutableTreeNode)(e.getTreePath().getLastPathComponent());
-        
-        int index = e.getChildIndices()[0];
+        node = (DefaultMutableTreeNode)(treeModelEvent.getTreePath().getLastPathComponent());
+
+        int index = treeModelEvent.getChildIndices()[0];
         node = (DefaultMutableTreeNode)(node.getChildAt(index));
 	}
 	@Override
-	public void treeNodesInserted(TreeModelEvent arg0) {
+	public void treeNodesInserted(TreeModelEvent treeModelEvent) {
 		
 	}
 	@Override
-	public void treeNodesRemoved(TreeModelEvent arg0) {
+	public void treeNodesRemoved(TreeModelEvent treeModelEvent) {
 		
 	}
 	@Override
-	public void treeStructureChanged(TreeModelEvent arg0) {
+	public void treeStructureChanged(TreeModelEvent treeModelEvent) {
 
 	}
 }

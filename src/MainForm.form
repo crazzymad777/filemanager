@@ -32,7 +32,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="81482" class="javax.swing.JButton" binding="PATHButton" default-binding="true">
+          <component id="81482" class="javax.swing.JButton" binding="PathButton" default-binding="true">
             <constraints border-constraint="North"/>
             <properties>
               <text value="PATH"/>

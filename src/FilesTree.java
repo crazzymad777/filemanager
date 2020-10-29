@@ -78,23 +78,23 @@ public class FilesTree {
 	}
 	public void SetCurrentPath(String text){
 		boolean mainframe=false;
-		if(this==mc.fm_frame.ft) mainframe=true;
+		if(this==mc.filemanager_form.filesTree) mainframe=true;
 		if(text==null) text="/";
 
 		frame.setTitle(titleframe+": "+text);
 
 		if(mainframe){
-			mc.fm_frame.getCurrentPath().setText(text);
+			mc.filemanager_form.getCurrentPath().setText(text);
 		}
 		if(text.equals("~")) {
 			current_path=null;
-			if(mainframe) mc.fm_frame.getCreateFileButton().setEnabled(true);
+			if(mainframe) mc.filemanager_form.getCreateFileButton().setEnabled(true);
 		}else {
 			current_path=Paths.get(text);
-			if(mainframe) mc.fm_frame.getCreateFileButton().setEnabled(!current_path.toFile().isFile());
+			if(mainframe) mc.filemanager_form.getCreateFileButton().setEnabled(!current_path.toFile().isFile());
 		}
-		if(mainframe) mc.fm_frame.getTextPane().setText(new FileInfo(current_path,mc).getData());
-		renderer.open_row=internalTree.getRowForPath(LastTreePath);
+		if(mainframe) mc.filemanager_form.getTextPane().setText(new FileInfo(current_path,mc).getData());
+		renderer.openedRow =internalTree.getRowForPath(LastTreePath);
 	}
 	public void addObject(DefaultMutableTreeNode parent,
 						  Object child,

@@ -4,37 +4,38 @@ import javax.swing.tree.TreePath;
 
 
 public class TimerTask extends java.util.TimerTask {
-	Filemanager mc;
-	FilesTree ft;
-	TreePath path;
+	Filemanager filemanager;
+	FilesTree filesTree;
+	TreePath treePath;
 	int row;
-	public TimerTask(Filemanager m, FilesTree f, int i, TreePath t) {
-		mc=m;
-		ft=f;
-		row=i;
-		path=t;
+
+	public TimerTask(Filemanager filemanager, FilesTree filesTree, int row, TreePath treePath) {
+		this.filemanager = filemanager;
+		this.filesTree = filesTree;
+		this.treePath = treePath;
+		this.row = row;
 	}
 
 	@Override
 	public void run() {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
-		
-		String data=ft.event.SyncPaths(path,true);
-		
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) treePath.getLastPathComponent();
+
+		String data = filesTree.event.SyncPaths(treePath,true);
+
 		if(!node.children().hasMoreElements()){
 			String[] directories = new File(data).list();
-			if(directories!=null){
+			if(directories != null){
 				for (String x : directories) {
-					File f=new File(data+x);
-					if(!f.isFile()){
-						ft.addObject(node,x+"\\",true,true);
+					File file = new File(data+x);
+					if(!file.isFile()){
+						filesTree.addObject(node,x+"\\",true,true);
 					}else{
-						ft.addObject(node,x,true,false);
+						filesTree.addObject(node,x,true,false);
 					}
 				}
 			}
 		}
-		ft.internalTree.expandRow(ft.renderer.loading_row);
-		ft.renderer.loading_row=-1;
+		filesTree.internalTree.expandRow(filesTree.renderer.loadingRow);
+		filesTree.renderer.loadingRow = -1;
 	}
 }

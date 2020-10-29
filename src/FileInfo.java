@@ -10,93 +10,98 @@ public class FileInfo {
 	public String getData(){
 		return data;
 	}
-	public FileInfo(Path p, Filemanager m){
-		current_path=p;
-		mc=m;
+	public FileInfo(Path path, Filemanager filemanager){
+		this.filemanager = filemanager;
+		this.path = path;
+
 		data="<html><table>";
-		File f=new File("/");
+		File file = new File("/");
 		String[] files;
-		if(current_path==null) {
-			files=mc.getRootDirectories();
+		if(this.path == null) {
+			files = filemanager.getRootDirectories();
 		}else{
-			f=current_path.toFile();
-			files=f.list();
+			file = this.path.toFile();
+			files = file.list();
 		}
-		if(f.isFile()){
-			Path path = f.toPath();
-			BasicFileAttributes bfa;
+		if(file.isFile()){
+			BasicFileAttributes basicFileAttributes;
 			try {
-				bfa = Files.readAttributes(path, BasicFileAttributes.class);
-				data+="<tr><td><b>Attribute</b></td><td>:</td><td>"+f.getName()+"</td></tr>";
-				data+="<tr><td><b>Filename</b></td><td>:</td><td>"+f.getName()+"</td></tr>";
-				data+="<tr><td><b>Path</b></td><td>:</td><td>"+f.getPath()+"</td></tr>";
-				data+="<tr><td><b>Creation Time</b></td><td>:</td><td>" + bfa.creationTime()+"</td></tr>";
-				data+="<tr><td><b>Last Access Time</b></td><td>:</td><td>" + bfa.lastAccessTime()+"</td></tr>";
-				data+="<tr><td><b>Last Modified Time</b></td><td>:</td><td>" + bfa.lastModifiedTime()+"</td></tr>";
-				data+="<tr><td><b>Is Directory</b></td><td>:</td><td>" + bfa.isDirectory()+"</td></tr>";
-				data+="<tr><td><b>Is Other</b></td><td>:</td><td>" + bfa.isOther()+"</td></tr>";
-				data+="<tr><td><b>Is Regular File</b></td><td>:</td><td>" + bfa.isRegularFile()+"</td></tr>";
-				data+="<tr><td><b>Is Symbolic Link</b></td><td>:</td><td>" + bfa.isSymbolicLink()+"</td></tr>";
-				data+="<tr><td><b>Size</b></td><td>:</td><td>" + bfa.size()+" "+((bfa.size()<2)?"byte":"bytes")+"</td></tr>";
-			} catch (IOException e) {
-				e.printStackTrace();
+				basicFileAttributes = Files.readAttributes(path, BasicFileAttributes.class);
+				data+="<tr><td><b>Attribute</b></td><td>:</td><td>"+file.getName()+"</td></tr>";
+				data+="<tr><td><b>Filename</b></td><td>:</td><td>"+file.getName()+"</td></tr>";
+				data+="<tr><td><b>Path</b></td><td>:</td><td>"+file.getPath()+"</td></tr>";
+				data+="<tr><td><b>Creation Time</b></td><td>:</td><td>" + basicFileAttributes.creationTime()+"</td></tr>";
+				data+="<tr><td><b>Last Access Time</b></td><td>:</td><td>" + basicFileAttributes.lastAccessTime()+"</td></tr>";
+				data+="<tr><td><b>Last Modified Time</b></td><td>:</td><td>" + basicFileAttributes.lastModifiedTime()+"</td></tr>";
+				data+="<tr><td><b>Is Directory</b></td><td>:</td><td>" + basicFileAttributes.isDirectory()+"</td></tr>";
+				data+="<tr><td><b>Is Other</b></td><td>:</td><td>" + basicFileAttributes.isOther()+"</td></tr>";
+				data+="<tr><td><b>Is Regular File</b></td><td>:</td><td>" + basicFileAttributes.isRegularFile()+"</td></tr>";
+				data+="<tr><td><b>Is Symbolic Link</b></td><td>:</td><td>" + basicFileAttributes.isSymbolicLink()+"</td></tr>";
+				data+="<tr><td><b>Size</b></td><td>:</td><td>" + basicFileAttributes.size()+" "+((basicFileAttributes.size()<2)?"byte":"bytes")+"</td></tr>";
+			} catch (IOException exception) {
+				exception.printStackTrace();
 			}
 		}else{
 			if(files!=null){
 				if(files.length<1){
-					data+="<tr>No such files or directories in this directory.</tr>";
+					data = data + "<tr>No such files or directories in this directory.</tr>";
 				}else{
-					data+="<tr><td>Filename</td><td>Your Access</td><td>Last Modified</td></tr>";
+					data = data + "<tr><td>Filename</td><td>Your Access</td><td>Last Modified</td></tr>";
 					for(String filename:files){
-						current_file=new File(current_path+"/"+filename);
-						makeNote();
+						makeNote(new File(this.path + "/" + filename));
 					}
 				}
 			}else{
-				data+="<tr>No such files or directories in this directory.</tr>";
+				data = data + "<tr>No such files or directories in this directory.</tr>";
 			}
-			data+="</table></html>";
+			data = data + "</table></html>";
 		}
 	}
-	public void makeNote(){
-		int type;
-		if(current_file.isDirectory()){
-			data+="<tr><td><b><font color=\"blue\">"+current_file.getName()+"</b></td></font>";
-			type=0;
-		}else if(!current_file.isFile()){
-			data+="<tr><td><b><font color=\"blue\">"+current_file.getName()+"</b></td></font>";
-			type=1;
+
+	enum FileType {
+		UNKNOWN_FILE_TYPE,
+		REGULAR_FILE,
+		DIRECTORY
+	}
+
+	public void makeNote(File file){
+		FileType type;
+		if(file.isDirectory()){
+			data = data + ("<tr><td><b><font color=\"blue\">" + file.getName() + "</b></td></font>");
+			type = FileType.DIRECTORY;
+		}else if(!file.isFile()){
+			data = data + ("<tr><td><b><font color=\"blue\">" + file.getName() + "</b></td></font>");
+			type = FileType.UNKNOWN_FILE_TYPE;
 		}else{
-			data+="<tr><td>"+current_file.getName()+"</td>";
-			type=2;
+			data = data + ("<tr><td>" + file.getName() + "</td>");
+			type = FileType.REGULAR_FILE;
 		}
-		if(type!=1){
+		if(type != FileType.UNKNOWN_FILE_TYPE){
 			String color;
-			if(current_file.canRead()){
-				color="green";
+			if(file.canRead()){
+				color = "green";
 			}else{
-				color="red";
+				color = "red";
 			}
-			data+=" <td><font color=\""+color+"\">R</font>";
-			if(current_file.canWrite()){
-				color="green";
+			data = data + (" <td><font color=\"" + color + "\">R</font>");
+			if(file.canWrite()){
+				color = "green";
 			}else{
-				color="red";
+				color = "red";
 			}
-			data+="-<font color=\""+color+"\">W</font>";
-			if(current_file.canExecute()){
-				color="green";
+			data = data + ("-<font color=\"" + color + "\">W</font>");
+			if(file.canExecute()){
+				color = "green";
 			}else{
-				color="red";
+				color = "red";
 			}
-			data+="-<font color=\""+color+"\">X</font></td>";
-			Date dt = new Date(current_file.lastModified());
-			data+="<td>"+dt+"</td>";
-			data+="</tr>";
+			data = data + ("-<font color=\"" + color + "\">X</font></td>");
+			Date date = new Date(file.lastModified());
+			data = data + ("<td>" + date + "</td>");
+			data = data + "</tr>";
 		}
 	}
-	private Filemanager mc;
-	private Path current_path;
-	private File current_file;
+	private Filemanager filemanager;
 	private String data;
+	private Path path;
 }

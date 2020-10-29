@@ -11,32 +11,32 @@ import javax.swing.tree.TreeCellRenderer;
 
 public class TreeRenderer extends JLabel implements TreeCellRenderer {
 
-	public TreeRenderer(Filemanager m) {
-		mc=m;
-		
+	public TreeRenderer(Filemanager filemanager) {
+		this.filemanager = filemanager;
+
 		ImageIcon openIcon = new ImageIcon(getClass().getResource("/images/ofolder.png"));
-		iopen_folder=new ImageIcon(openIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
-		
+		iconOpenedFolder = new ImageIcon(openIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+
 		ImageIcon closedIcon = new ImageIcon(getClass().getResource("/images/cfolder.png"));
-		iclosed_folder=new ImageIcon(closedIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
-		
+		iconClosedFolder = new ImageIcon(closedIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+
 		ImageIcon refreshIcon = new ImageIcon(getClass().getResource("/images/refresh.png"));
-		refresh_folder=new ImageIcon(refreshIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+		iconRefreshFolder = new ImageIcon(refreshIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	}
 	@Override
 	public Component getTreeCellRendererComponent(JTree arg0, Object val,boolean selected,boolean expanded, boolean leaf,int row, boolean hasFocus) {
 		String text="Root Directory";
 		if(!val.toString().equals("")) text=val.toString();
-		setIcon(iclosed_folder);
+		setIcon(iconClosedFolder);
 		if(leaf){
-			setIcon(ifile);
+			setIcon(iconFile);
 		}else{
 			text=text.replace("\\", "");
-			if(open_row==row) {
-				setIcon(iopen_folder);
+			if(openedRow ==row) {
+				setIcon(iconOpenedFolder);
 			}
-			if(loading_row==row){
-				setIcon(refresh_folder);
+			if(loadingRow ==row){
+				setIcon(iconRefreshFolder);
 			}
 		}
 		if(selected){
@@ -46,12 +46,12 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer {
 		setText(text);
 		return this;
 	}
-	int open_row=-1;
-	ImageIcon iopen_folder; 
-	ImageIcon iclosed_folder; 
-	ImageIcon refresh_folder; 
-	Icon ifile=UIManager.getIcon("Tree.leafIcon"); 
-	Filemanager mc;
-	Integer loading_row=-1;
-	Timer timer=new Timer();
+	Icon iconFile = UIManager.getIcon("Tree.leafIcon");
+	ImageIcon iconRefreshFolder;
+	ImageIcon iconOpenedFolder;
+	ImageIcon iconClosedFolder;
+	Timer timer = new Timer();
+	Filemanager filemanager;
+	Integer loadingRow =-1;
+	int openedRow = -1;
 }

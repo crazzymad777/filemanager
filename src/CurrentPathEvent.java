@@ -5,25 +5,25 @@ import java.nio.file.Path;
 import javax.swing.tree.TreePath;
 
 public class CurrentPathEvent implements ActionListener {
-	Filemanager mc;
-	FilesTree ft;
-	public CurrentPathEvent(Filemanager m, FilesTree f){
-		mc=m;
-		ft=f;
+	Filemanager filemanager;
+	FilesTree filesTree;
+	public CurrentPathEvent(Filemanager filemanager, FilesTree filesTree){
+		this.filemanager = filemanager;
+		this.filesTree = filesTree;
 	}
 	@Override
-	public void actionPerformed(ActionEvent ae) {
-		if(ft.current_path!=null){
- 		   Path somepath=ft.current_path.getParent();
- 		   if(somepath!=null){
- 			   ft.SetCurrentPath(somepath.toString());
+	public void actionPerformed(ActionEvent actionEvent) {
+		if(filesTree.current_path != null){
+ 		   Path path = filesTree.current_path.getParent();
+ 		   if(path != null){
+			   filesTree.SetCurrentPath(path.toString());
  		   }else{
- 			   ft.SetCurrentPath("~");
+			   filesTree.SetCurrentPath("~");
  		   }
- 		   if(ft.LastTreePath!=null){
-	 		   TreePath tp=ft.LastTreePath.getParentPath();
-	 		   ft.internalTree.collapsePath(ft.LastTreePath);
-	 		   ft.LastTreePath=tp;
+ 		   if(filesTree.LastTreePath != null){
+	 		   TreePath treePath = filesTree.LastTreePath.getParentPath();
+			   filesTree.internalTree.collapsePath(filesTree.LastTreePath);
+			   filesTree.LastTreePath = treePath;
  		   }
  	   }
 	}

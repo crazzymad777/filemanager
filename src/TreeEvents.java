@@ -8,51 +8,51 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener {
-	Filemanager mc;
-	FilesTree ft;
-	public TreeEvents(Filemanager m, FilesTree f){
-		mc=m;
-		ft=f;
+	Filemanager filemanager;
+	FilesTree filesTree;
+	public TreeEvents(Filemanager filemanager, FilesTree filesTree){
+		this.filemanager = filemanager;
+		this.filesTree = filesTree;
 	}
-	public void valueChanged(TreeSelectionEvent e) {
-		TreePath path = ft.internalTree.getSelectionModel().getSelectionPath();
+	public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
+		TreePath path = filesTree.internalTree.getSelectionModel().getSelectionPath();
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
-		
+
 		if(node==null){
 			SyncPaths(path,true);
 		}else if(!node.isLeaf() || node.getAllowsChildren()){
-			if(ft.internalTree.isExpanded(path)){
+			if(filesTree.internalTree.isExpanded(path)){
 				if(node.children().hasMoreElements()){
-					ft.LastTreePath=path;
+					filesTree.LastTreePath=path;
 					SyncPaths(path,true);
 				}
 			}else{
 				if(!node.isLeaf() || node.getAllowsChildren()){
-					int new_row=ft.internalTree.getRowForPath(path);
-					if(ft.renderer.loading_row==-1){
-						ft.renderer.loading_row=new_row;
-					}else if(ft.renderer.loading_row!=new_row){
-						ft.renderer.loading_row=new_row;
+					int new_row= filesTree.internalTree.getRowForPath(path);
+					if(filesTree.renderer.loadingRow ==-1){
+						filesTree.renderer.loadingRow =new_row;
+					}else if(filesTree.renderer.loadingRow !=new_row){
+						filesTree.renderer.loadingRow =new_row;
 					}
-					ft.renderer.timer=new Timer();
-					ft.renderer.timer.schedule(new TimerTask(mc,ft,new_row,path), 2000);
+					filesTree.renderer.timer=new Timer();
+					filesTree.renderer.timer.schedule(new TimerTask(filemanager, filesTree,new_row,path), 2000);
 				}
 			}
 		}else{
-			ft.LastTreePath=path;
+			filesTree.LastTreePath=path;
 			SyncPaths(path,true);
 		}
 	}
 	public void treeWillCollapse(TreeExpansionEvent treeExpansionEvent){
 	TreePath path = treeExpansionEvent.getPath();
 		if(path.getParentPath()==null){
-			ft.loadTree();
-			ft.SetCurrentPath("~");
+			filesTree.loadTree();
+			filesTree.SetCurrentPath("~");
 		}else{
 			TreePath parent_path = path.getParentPath();
 			if(parent_path.getParentPath()==null){
-				ft.SetCurrentPath("~");
-				ft.loadTree();
+				filesTree.SetCurrentPath("~");
+				filesTree.loadTree();
 			}else{  
 				SyncPaths(path,true);
 			}
@@ -62,35 +62,35 @@ public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener 
 		TreePath path = treeExpansionEvent.getPath();
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)path.getLastPathComponent();
 		
-		ft.LastTreePath=path; 
+		filesTree.LastTreePath=path;
 		if(!node.isLeaf() || node.getAllowsChildren()){
 			if(path.getParentPath()==null){
-				ft.SetCurrentPath("~");
+				filesTree.SetCurrentPath("~");
 			}else{
-				int new_row=ft.internalTree.getRowForPath(path);
-				if(ft.renderer.loading_row==-1){
-					ft.renderer.loading_row=new_row;
-				}else if(ft.renderer.loading_row!=new_row){
-					ft.renderer.loading_row=new_row;
+				int new_row= filesTree.internalTree.getRowForPath(path);
+				if(filesTree.renderer.loadingRow ==-1){
+					filesTree.renderer.loadingRow =new_row;
+				}else if(filesTree.renderer.loadingRow !=new_row){
+					filesTree.renderer.loadingRow =new_row;
 				}
-				ft.renderer.timer.cancel();
-				ft.renderer.timer.purge();
-				ft.renderer.timer=new Timer();
-				ft.renderer.timer.schedule(new TimerTask(mc,ft,new_row,path), 2000);
+				filesTree.renderer.timer.cancel();
+				filesTree.renderer.timer.purge();
+				filesTree.renderer.timer=new Timer();
+				filesTree.renderer.timer.schedule(new TimerTask(filemanager, filesTree,new_row,path), 2000);
 			}
 		}
 	}
-	public String SyncPaths(TreePath path,boolean bSet){
+	public String SyncPaths(TreePath path, boolean bSet){
 		if(path!=null){
 			int number=path.getPathCount();
-			Object[] o=path.getPath();
+			Object[] object=path.getPath();
 			StringBuilder data= new StringBuilder();
 			for(int i=1;i<number;i++){
-				DefaultMutableTreeNode node=(DefaultMutableTreeNode)o[i];
+				DefaultMutableTreeNode node=(DefaultMutableTreeNode)object[i];
 				data.append(node.getUserObject().toString());
 			}
 			if(number==1) data = new StringBuilder("~");
-			if(bSet) ft.SetCurrentPath(data.toString());
+			if(bSet) filesTree.SetCurrentPath(data.toString());
 			return data.toString();
 		}
 		return "/";

@@ -3,29 +3,29 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class CreateDirectoryEvent implements ActionListener {
-	Filemanager mc;
-	FilesTree ft;
-	public CreateDirectoryEvent(Filemanager m, FilesTree f){
-		mc=m;
-		ft=f;
+	Filemanager filemanager;
+	FilesTree filesTree;
+	public CreateDirectoryEvent(Filemanager filemanager, FilesTree filesTree){
+		this.filemanager = filemanager;
+		this.filesTree = filesTree;
 	}
 	@Override 
-	public void actionPerformed(ActionEvent ae){
-		String name = mc.ShowInputMessage("New directory", "Enter name of new directory:");
-		if(name==null) return;
-		String newpath;
-		if(ft.current_path==null){
-			newpath="/"+name;
+	public void actionPerformed(ActionEvent actionEvent){
+		String name = filemanager.ShowInputMessage("New directory", "Enter name of new directory:");
+		if(name == null) return;
+		String newPath;
+		if(filesTree.current_path==null){
+			newPath = "/" + name;
 		}else{
-			newpath=ft.current_path+"/"+name;
+			newPath = filesTree.current_path + "/" + name;
 		}
-		File newfolder=new File(newpath);
+		File newFolder = new File(newPath);
 
-		if(newfolder.mkdir()){
-			ft.addObject(null, newfolder.getName()+"\\", true, true);
-			ft.event.SyncPaths(ft.internalTree.getSelectionPath(), true);
+		if(newFolder.mkdir()){
+			filesTree.addObject(null, newFolder.getName()+"\\", true, true);
+			filesTree.event.SyncPaths(filesTree.internalTree.getSelectionPath(), true);
 		}else{
-			mc.ShowMessage("Failed to create directory","Couldn't create directory.");
+			filemanager.ShowMessage("Failed to create directory","Couldn't create directory.");
 		}
 	} 
 }
