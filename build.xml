@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="filemanager" default="run">
+<project name="Filemanager" default="run">
     <!-- define properties -->
     <property name="src" location="src"/>
     <property name="build" location="build"/>

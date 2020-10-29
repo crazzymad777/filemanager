@@ -3,10 +3,10 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 
-public class fm_TreeModelListener implements TreeModelListener {
-	fm_filestree ft;
-	filemanager mc;
-	public fm_TreeModelListener(filemanager m, fm_filestree f) {
+public class FilesTreeModelListener implements TreeModelListener {
+	FilesTree ft;
+	Filemanager mc;
+	public FilesTreeModelListener(Filemanager m, FilesTree f) {
 		mc=m;
 		ft=f;
 	}

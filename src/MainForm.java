@@ -2,8 +2,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-public class fm_visual_ex {
-    public fm_visual_ex(filemanager m) {
+public class MainForm {
+    public MainForm(Filemanager m) {
         mc = m;
 
         JFrame frame = new JFrame();
@@ -12,13 +12,13 @@ public class fm_visual_ex {
         frame.setTitle("Filemanager");
 
         frame.setContentPane(panel1);
-        ft = new fm_filestree(mc, frame, side_panel);
+        ft = new FilesTree(mc, frame, side_panel);
         frame.setVisible(true);
         frame.setSize(800, 500);
 
         // Handle events
-        button_event = new fm_buttonbar_event(mc, ft);
-        PATHButton.addActionListener(new fm_cpath_event(mc, ft));
+        button_event = new ButtonbarEvent(mc, ft);
+        PATHButton.addActionListener(new CurrentPathEvent(mc, ft));
         createButton.addActionListener(button_event);
         removeButton.addActionListener(button_event);
         renameButton.addActionListener(button_event);
@@ -26,9 +26,9 @@ public class fm_visual_ex {
         copyButton.addActionListener(button_event);
     }
 
-    fm_buttonbar_event button_event;
-    fm_filestree ft;
-    filemanager mc;
+    ButtonbarEvent button_event;
+    FilesTree ft;
+    Filemanager mc;
 
     public JButton getCurrentPath() {
         return PATHButton;

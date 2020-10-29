@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,11 +12,11 @@ import javax.swing.tree.TreePath;
 
 import static java.nio.file.StandardCopyOption.*;
 
-public class fm_buttonbar_event implements ActionListener {
-	filemanager mc;
-	fm_filestree ft;
+public class ButtonbarEvent implements ActionListener {
+	Filemanager mc;
+	FilesTree ft;
 	String sname;
-	public fm_buttonbar_event(filemanager m, fm_filestree f){
+	public ButtonbarEvent(Filemanager m, FilesTree f){
 		mc=m;
 		ft=f;
 	}
@@ -79,10 +78,10 @@ public class fm_buttonbar_event implements ActionListener {
 					someframe.setBounds(100, 100, 230, 540);
 					someframe.setLayout(null);
 
-					fm_filestree ft2 = new fm_filestree(mc, someframe, null);
+					FilesTree ft2 = new FilesTree(mc, someframe, null);
 					JButton btnMove = new JButton("Move to");
 					btnMove.setBounds(10, 470, 200, 20);
-					fm_buttonbar_event be = new fm_buttonbar_event(mc, ft2);
+					ButtonbarEvent be = new ButtonbarEvent(mc, ft2);
 					be.sname = ft.current_path.toString();
 					btnMove.addActionListener(be);
 					someframe.add(btnMove);
@@ -96,10 +95,10 @@ public class fm_buttonbar_event implements ActionListener {
 					someframe.setBounds(100, 100, 230, 540);
 					someframe.setLayout(null);
 
-					fm_filestree ft2 = new fm_filestree(mc, someframe, null);
+					FilesTree ft2 = new FilesTree(mc, someframe, null);
 					JButton btnCopy = new JButton("Copy to");
 					btnCopy.setBounds(10, 470, 200, 20);
-					fm_buttonbar_event be = new fm_buttonbar_event(mc, ft2);
+					ButtonbarEvent be = new ButtonbarEvent(mc, ft2);
 					be.sname = ft.current_path.toString();
 					btnCopy.addActionListener(be);
 					someframe.add(btnCopy);

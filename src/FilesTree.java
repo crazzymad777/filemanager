@@ -14,10 +14,10 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 
-public class fm_filestree {
+public class FilesTree {
 	JFrame frame;
 	String titleframe;
-	public fm_filestree(filemanager m, JFrame f, JPanel panel){
+	public FilesTree(Filemanager m, JFrame f, JPanel panel){
 		mc=m;
 		frame=f;
 		titleframe=f.getTitle();
@@ -27,14 +27,14 @@ public class fm_filestree {
 		internalTree=new JTree(treeModel);
 		internalTree.putClientProperty("JTree.lineStyle", "Angeled");
 		internalTree.setBorder(new EmptyBorder(10, 10, 10, 10));
-		event=new fm_three_events(mc,this);
+		event=new TreeEvents(mc,this);
 		internalTree.addTreeWillExpandListener(event);
 		internalTree.addTreeSelectionListener(event);
 		internalTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
-		treeModel.addTreeModelListener(new fm_TreeModelListener(mc,this));
+		treeModel.addTreeModelListener(new FilesTreeModelListener(mc,this));
 
-		renderer = new fm_renderer(mc);
+		renderer = new TreeRenderer(mc);
 		internalTree.setCellRenderer(renderer);
 
 		threepanel = new JScrollPane(internalTree);
@@ -45,7 +45,7 @@ public class fm_filestree {
 
 		btnCreate = new JButton("Create directory");
 		btnCreate.setBounds(10, 440, 200, 20);
-		btnCreate.addActionListener(new fm_createdir_event(mc, this));
+		btnCreate.addActionListener(new CreateDirectoryEvent(mc, this));
 
 		container.add(btnCreate, java.awt.BorderLayout.SOUTH);
 		container.add(threepanel, java.awt.BorderLayout.CENTER);
@@ -93,7 +93,7 @@ public class fm_filestree {
 			current_path=Paths.get(text);
 			if(mainframe) mc.fm_frame.getCreateFileButton().setEnabled(!current_path.toFile().isFile());
 		}
-		if(mainframe) mc.fm_frame.getTextPane().setText(new fm_fileinfo(current_path,mc).getData());
+		if(mainframe) mc.fm_frame.getTextPane().setText(new FileInfo(current_path,mc).getData());
 		renderer.open_row=internalTree.getRowForPath(LastTreePath);
 	}
 	public void addObject(DefaultMutableTreeNode parent,
@@ -146,8 +146,8 @@ public class fm_filestree {
 	JTree internalTree;
 	JButton btnCreate;
 	JScrollPane threepanel;
-	fm_three_events event;
-	fm_renderer renderer;
+	TreeEvents event;
+	TreeRenderer renderer;
     Path current_path=null;
-	filemanager mc;
+	Filemanager mc;
 }

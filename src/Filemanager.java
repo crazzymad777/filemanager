@@ -9,17 +9,17 @@ import javax.swing.JOptionPane;
 
 import javax.swing.UIManager;
 
-public class filemanager {
+public class Filemanager {
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception ignored){}
 
-		filemanager m=new filemanager();
+		Filemanager m=new Filemanager();
 		m.fm_frame.ft.SetCurrentPath("~");
 	}
-	public filemanager(){
-        fm_frame=new fm_visual_ex(this);
+	public Filemanager(){
+        fm_frame=new MainForm(this);
 	}
 	public String[] getRootDirectories(){
 		FileSystem fileSystem = FileSystems.getDefault();
@@ -41,6 +41,6 @@ public class filemanager {
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 	
-	fm_visual_ex fm_frame;
+	MainForm fm_frame;
     
 }

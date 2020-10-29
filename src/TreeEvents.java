@@ -7,10 +7,10 @@ import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-public class fm_three_events implements TreeSelectionListener,TreeWillExpandListener {
-	filemanager mc;
-	fm_filestree ft;
-	public fm_three_events(filemanager m, fm_filestree f){
+public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener {
+	Filemanager mc;
+	FilesTree ft;
+	public TreeEvents(Filemanager m, FilesTree f){
 		mc=m;
 		ft=f;
 	}
@@ -35,7 +35,7 @@ public class fm_three_events implements TreeSelectionListener,TreeWillExpandList
 						ft.renderer.loading_row=new_row;
 					}
 					ft.renderer.timer=new Timer();
-					ft.renderer.timer.schedule(new fm_timertask(mc,ft,new_row,path), 2000);
+					ft.renderer.timer.schedule(new TimerTask(mc,ft,new_row,path), 2000);
 				}
 			}
 		}else{
@@ -76,7 +76,7 @@ public class fm_three_events implements TreeSelectionListener,TreeWillExpandList
 				ft.renderer.timer.cancel();
 				ft.renderer.timer.purge();
 				ft.renderer.timer=new Timer();
-				ft.renderer.timer.schedule(new fm_timertask(mc,ft,new_row,path), 2000);
+				ft.renderer.timer.schedule(new TimerTask(mc,ft,new_row,path), 2000);
 			}
 		}
 	}

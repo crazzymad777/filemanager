@@ -2,10 +2,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-public class fm_createdir_event implements ActionListener {
-	filemanager mc;
-	fm_filestree ft;
-	public fm_createdir_event(filemanager m, fm_filestree f){
+public class CreateDirectoryEvent implements ActionListener {
+	Filemanager mc;
+	FilesTree ft;
+	public CreateDirectoryEvent(Filemanager m, FilesTree f){
 		mc=m;
 		ft=f;
 	}

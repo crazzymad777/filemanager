@@ -1,16 +1,14 @@
 import java.io.File;
-import java.util.TimerTask;
-
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 
-public class fm_timertask extends TimerTask {
-	filemanager mc;
-	fm_filestree ft;
+public class TimerTask extends java.util.TimerTask {
+	Filemanager mc;
+	FilesTree ft;
 	TreePath path;
 	int row;
-	public fm_timertask(filemanager m, fm_filestree f, int i, TreePath t) {
+	public TimerTask(Filemanager m, FilesTree f, int i, TreePath t) {
 		mc=m;
 		ft=f;
 		row=i;

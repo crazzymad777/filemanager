@@ -9,9 +9,9 @@ import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.TreeCellRenderer;
 
-public class fm_renderer extends JLabel implements TreeCellRenderer {
+public class TreeRenderer extends JLabel implements TreeCellRenderer {
 
-	public fm_renderer(filemanager m) {
+	public TreeRenderer(Filemanager m) {
 		mc=m;
 		
 		ImageIcon openIcon = new ImageIcon(getClass().getResource("/images/ofolder.png"));
@@ -51,7 +51,7 @@ public class fm_renderer extends JLabel implements TreeCellRenderer {
 	ImageIcon iclosed_folder; 
 	ImageIcon refresh_folder; 
 	Icon ifile=UIManager.getIcon("Tree.leafIcon"); 
-	filemanager mc;
+	Filemanager mc;
 	Integer loading_row=-1;
 	Timer timer=new Timer();
 }

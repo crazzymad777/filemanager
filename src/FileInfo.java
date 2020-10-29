@@ -6,11 +6,11 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
 
 
-public class fm_fileinfo {
+public class FileInfo {
 	public String getData(){
 		return data;
 	}
-	public fm_fileinfo(Path p, filemanager m){
+	public FileInfo(Path p, Filemanager m){
 		current_path=p;
 		mc=m;
 		data="<html><table>";
@@ -95,7 +95,7 @@ public class fm_fileinfo {
 			data+="</tr>";
 		}
 	}
-	private filemanager mc;
+	private Filemanager mc;
 	private Path current_path;
 	private File current_file;
 	private String data;

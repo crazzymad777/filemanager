@@ -4,10 +4,10 @@ import java.nio.file.Path;
 
 import javax.swing.tree.TreePath;
 
-public class fm_cpath_event implements ActionListener {
-	filemanager mc;
-	fm_filestree ft;
-	public fm_cpath_event(filemanager m, fm_filestree f){
+public class CurrentPathEvent implements ActionListener {
+	Filemanager mc;
+	FilesTree ft;
+	public CurrentPathEvent(Filemanager m, FilesTree f){
 		mc=m;
 		ft=f;
 	}
