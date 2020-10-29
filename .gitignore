@@ -4,6 +4,7 @@ src/images/*
 #ignore idea files
 .idea
 filemanager_4.iml
+out
 
 #ignore build
 build
