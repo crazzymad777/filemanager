@@ -47,11 +47,11 @@ public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener 
 	TreePath path = treeExpansionEvent.getPath();
 		if(path.getParentPath()==null){
 			filesTree.loadTree();
-			filesTree.SetCurrentPath("~");
+			filesTree.SetCurrentPath("/");
 		}else{
 			TreePath parent_path = path.getParentPath();
 			if(parent_path.getParentPath()==null){
-				filesTree.SetCurrentPath("~");
+				filesTree.SetCurrentPath("/");
 				filesTree.loadTree();
 			}else{  
 				SyncPaths(path,true);
@@ -65,7 +65,7 @@ public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener 
 		filesTree.LastTreePath=path;
 		if(!node.isLeaf() || node.getAllowsChildren()){
 			if(path.getParentPath()==null){
-				filesTree.SetCurrentPath("~");
+				filesTree.SetCurrentPath("/");
 			}else{
 				int new_row= filesTree.internalTree.getRowForPath(path);
 				if(filesTree.renderer.loadingRow ==-1){
@@ -82,14 +82,15 @@ public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener 
 	}
 	public String SyncPaths(TreePath path, boolean bSet){
 		if(path!=null){
-			int number=path.getPathCount();
-			Object[] object=path.getPath();
-			StringBuilder data= new StringBuilder();
+			int number = path.getPathCount();
+			Object[] object = path.getPath();
+			StringBuilder data = new StringBuilder(filemanager.unix ? "/" : "");
+			//StringBuilder data = new StringBuilder();
 			for(int i=1;i<number;i++){
 				DefaultMutableTreeNode node=(DefaultMutableTreeNode)object[i];
 				data.append(node.getUserObject().toString());
 			}
-			if(number==1) data = new StringBuilder("~");
+			if(number == 1) data = new StringBuilder("/");
 			if(bSet) filesTree.SetCurrentPath(data.toString());
 			return data.toString();
 		}

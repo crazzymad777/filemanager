@@ -18,7 +18,7 @@ public class CurrentPathEvent implements ActionListener {
  		   if(path != null){
 			   filesTree.SetCurrentPath(path.toString());
  		   }else{
-			   filesTree.SetCurrentPath("~");
+			   filesTree.SetCurrentPath("/");
  		   }
  		   if(filesTree.LastTreePath != null){
 	 		   TreePath treePath = filesTree.LastTreePath.getParentPath();

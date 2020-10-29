@@ -1,5 +1,6 @@
 import java.awt.Component;
 import java.awt.Image;
+import java.io.File;
 import java.util.Timer;
 
 import javax.swing.Icon;
@@ -25,17 +26,17 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer {
 	}
 	@Override
 	public Component getTreeCellRendererComponent(JTree arg0, Object val,boolean selected,boolean expanded, boolean leaf,int row, boolean hasFocus) {
-		String text="Root Directory";
+		String text="Drives";
 		if(!val.toString().equals("")) text=val.toString();
 		setIcon(iconClosedFolder);
 		if(leaf){
 			setIcon(iconFile);
 		}else{
-			text=text.replace("\\", "").replace("/", "");
-			if(openedRow ==row) {
+			text=text.replace(File.separator, "");
+			if(openedRow == row) {
 				setIcon(iconOpenedFolder);
 			}
-			if(loadingRow ==row){
+			if(loadingRow == row){
 				setIcon(iconRefreshFolder);
 			}
 		}

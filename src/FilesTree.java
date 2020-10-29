@@ -51,8 +51,9 @@ public class FilesTree {
 		container.add(treePanel, java.awt.BorderLayout.CENTER);
 	}
 	public void loadTree(){
-		rootNode =new DefaultMutableTreeNode();
-		String[] dirs= filemanager.getRootDirectories();
+		boolean unix = filemanager.unix;
+		rootNode = new DefaultMutableTreeNode(unix ? "/" : "", true);
+		String[] dirs = filemanager.getRootsOrInRoot();
 		for (String name : dirs) {
 			DefaultMutableTreeNode Drive = new DefaultMutableTreeNode(name,true);
 			/*String[] directories = new File(name).list();
@@ -81,20 +82,20 @@ public class FilesTree {
 		if(this == filemanager.mainForm.filesTree) mainframe = true;
 		if(text == null) text="/";
 
-		frame.setTitle(frameTitle +": "+text);
+		frame.setTitle(frameTitle + ": " + text);
 
 		if(mainframe){
 			filemanager.mainForm.getCurrentPath().setText(text);
 		}
-		if(text.equals("~")) {
-			currentPath =null;
+		if(text.equals("/")) {
+			currentPath = null;
 			if(mainframe) filemanager.mainForm.getCreateFileButton().setEnabled(true);
-		}else {
-			currentPath =Paths.get(text);
+		} else {
+			currentPath = Paths.get(text);
 			if(mainframe) filemanager.mainForm.getCreateFileButton().setEnabled(!currentPath.toFile().isFile());
 		}
 		if(mainframe) filemanager.mainForm.getTextPane().setText(new FileInfo(currentPath, filemanager).getData());
-		renderer.openedRow =internalTree.getRowForPath(LastTreePath);
+		renderer.openedRow = internalTree.getRowForPath(LastTreePath);
 	}
 	public void addObject(DefaultMutableTreeNode parent,
 						  Object child,

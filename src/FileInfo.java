@@ -2,8 +2,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class FileInfo {
@@ -14,13 +16,16 @@ public class FileInfo {
 		this.filemanager = filemanager;
 		this.path = path;
 
+		String prefix = "";
+
 		data="<html><table>";
 		File file = new File("/");
 		String[] files;
-		if(this.path == null) {
-			files = filemanager.getRootDirectories();
+		if(path == null) {
+			files = filemanager.getRootsOrInRoot();
 		}else{
-			file = this.path.toFile();
+			if (!path.toString().equals("/")) prefix = path.toString();
+			file = path.toFile();
 			files = file.list();
 		}
 		if(file.isFile()){
@@ -48,7 +53,7 @@ public class FileInfo {
 				}else{
 					data = data + "<tr><td>Filename</td><td>Your Access</td><td>Last Modified</td></tr>";
 					for(String filename:files){
-						makeNote(new File(this.path + "/" + filename));
+						makeNote(new File( prefix + "/" + filename));
 					}
 				}
 			}else{

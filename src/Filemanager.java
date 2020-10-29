@@ -1,8 +1,6 @@
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,21 +13,37 @@ public class Filemanager {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception ignored){}
 
-		Filemanager m=new Filemanager();
-		m.mainForm.filesTree.SetCurrentPath("~");
+		new Filemanager().mainForm.filesTree.SetCurrentPath("/");
 	}
 	public Filemanager(){
-        mainForm =new MainForm(this);
+		mainForm = new MainForm(this);
+		unix = new File("/").getPath().equals("/");
 	}
-	public String[] getRootDirectories(){
-		FileSystem fileSystem = FileSystems.getDefault();
-		Iterable<Path> dirs = fileSystem.getRootDirectories();
+	public String[] getRootsOrInRoot(){
+		File[] roots = File.listRoots();
 		List<String> list = new ArrayList<>();
-        for (Path name : dirs) {
-        	list.add(name.toString());
+        for (File file : roots) {
+        	list.add(file.getPath());
         }
         String[] retArray = new String[ list.size() ];
-        list.toArray( retArray );
+		list.toArray( retArray );
+
+        if (retArray.length == 1)
+		{
+			if (retArray[0].equals(File.separator))
+			{
+				File root = new File(retArray[0]);
+				retArray = root.list();
+
+				String[] retArrayWithSlash = new String[ retArray.length ];
+                int i;
+                for (i = 0; i < retArray.length; i++)
+                    retArrayWithSlash[i] = retArray[i] + "/";
+
+                retArray = retArrayWithSlash;
+			}
+		}
+
         return retArray;
 	}
 	public String ShowInputMessage(String title,String body){
@@ -42,4 +56,5 @@ public class Filemanager {
     }
 
 	MainForm mainForm;
+	boolean unix;
 }
