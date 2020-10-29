@@ -31,7 +31,7 @@ public class TreeRenderer extends JLabel implements TreeCellRenderer {
 		if(leaf){
 			setIcon(iconFile);
 		}else{
-			text=text.replace("\\", "").replace("//", "");
+			text=text.replace("\\", "").replace("/", "");
 			if(openedRow ==row) {
 				setIcon(iconOpenedFolder);
 			}
