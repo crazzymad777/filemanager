@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="fm_visual_ex">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="10" vgap="10">
+    <constraints>
+      <xy x="20" y="20" width="800" height="500"/>
+    </constraints>
+    <properties>
+      <alignmentX value="0.5"/>
+      <focusable value="false"/>
+      <minimumSize width="800" height="500"/>
+      <opaque value="true"/>
+      <preferredSize width="800" height="500"/>
+    </properties>
+    <border type="empty">
+      <size top="10" left="10" bottom="10" right="10"/>
+    </border>
+    <children>
+      <grid id="68334" binding="side_panel" layout-manager="BorderLayout" hgap="0" vgap="10">
+        <constraints border-constraint="West"/>
+        <properties>
+          <alignmentX value="0.0"/>
+          <alignmentY value="0.0"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <grid id="658b9" layout-manager="BorderLayout" hgap="10" vgap="10">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <alignmentX value="0.0"/>
+          <alignmentY value="0.0"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="81482" class="javax.swing.JButton" binding="PATHButton" default-binding="true">
+            <constraints border-constraint="North"/>
+            <properties>
+              <text value="PATH"/>
+            </properties>
+          </component>
+          <scrollpane id="4d47d">
+            <constraints border-constraint="South"/>
+            <properties>
+              <inheritsPopupMenu value="false"/>
+              <minimumSize width="250" height="375"/>
+              <opaque value="true"/>
+              <preferredSize width="350" height="375"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="2d445" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
+                <constraints/>
+                <properties>
+                  <contentType value="text/html"/>
+                  <editable value="false"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <grid id="6cb3b" layout-manager="FlowLayout" hgap="10" vgap="0" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <minimumSize width="650" height="30"/>
+              <preferredSize width="650" height="30"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="3f91c" class="javax.swing.JButton" binding="createButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <hideActionText value="false"/>
+                  <horizontalTextPosition value="11"/>
+                  <maximumSize width="200" height="30"/>
+                  <text value="Create"/>
+                </properties>
+              </component>
+              <component id="ec888" class="javax.swing.JButton" binding="renameButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <maximumSize width="200" height="30"/>
+                  <text value="Rename"/>
+                </properties>
+              </component>
+              <component id="713f1" class="javax.swing.JButton" binding="moveButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <maximumSize width="200" height="30"/>
+                  <text value="Move"/>
+                </properties>
+              </component>
+              <component id="98181" class="javax.swing.JButton" binding="copyButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <maximumSize width="200" height="30"/>
+                  <text value="Copy"/>
+                </properties>
+              </component>
+              <component id="c75da" class="javax.swing.JButton" binding="removeButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <maximumSize width="200" height="30"/>
+                  <text value="Remove"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

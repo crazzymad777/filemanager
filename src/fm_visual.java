@@ -14,27 +14,27 @@ public class fm_visual extends JFrame {
 	    setLayout(null);
 	    mc=m;
 
-		ft=new fm_filestree(mc,this);
-		
+		ft=new fm_filestree(mc,this, null);
+
 		cpath=new JButton("~");
 		cpath.addActionListener(new fm_cpath_event(mc,ft));
 		cpath.setBounds(220, 10, 550, 20);
-		
+
 		label=new JTextPane();
 		label.setContentType("text/html");
 		label.setEditable(false);
 		label.setBackground(null); 
 		label.setBorder(new EmptyBorder(10, 10, 10, 10));
-		
+
 		filespanel = new JScrollPane(label);
 		filespanel.setBackground(new Color(255,255,255));
 		filespanel.setBounds(220, 70, 550, 390);
-		
+
 		btnCreateFile=new JButton("Create");
 		button_event=new fm_buttonbar_event(mc,ft);
 		btnCreateFile.addActionListener(button_event);
 		btnCreateFile.setBounds(220, 40, 100, 20);
-		
+
 		JButton btnRename=new JButton("Rename");
 		btnRename.addActionListener(button_event);
 		btnRename.setBounds(330, 40, 100, 20);
@@ -42,11 +42,11 @@ public class fm_visual extends JFrame {
 		JButton btnMove=new JButton("Move");
 		btnMove.addActionListener(button_event);
 		btnMove.setBounds(440, 40, 100, 20);
-		
+
 		JButton btnCopy=new JButton("Copy");
 		btnCopy.addActionListener(button_event);
 		btnCopy.setBounds(550, 40, 100, 20);
-		
+
 		JButton btnRemove=new JButton("Remove");
 		btnRemove.addActionListener(button_event);
 		btnRemove.setBounds(660, 40, 110, 20);

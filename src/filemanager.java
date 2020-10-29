@@ -7,13 +7,19 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import javax.swing.UIManager;
+
 public class filemanager {
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch(Exception ignored){}
+
 		filemanager m=new filemanager();
 		m.fm_frame.ft.SetCurrentPath("~");
 	}
 	public filemanager(){
-        fm_frame=new fm_visual(this);
+        fm_frame=new fm_visual_ex(this);
 	}
 	public String[] getRootDirectories(){
 		FileSystem fileSystem = FileSystems.getDefault();
@@ -35,6 +41,6 @@ public class filemanager {
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
 	
-	fm_visual fm_frame;
+	fm_visual_ex fm_frame;
     
 }

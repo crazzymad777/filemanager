@@ -78,8 +78,8 @@ public class fm_buttonbar_event implements ActionListener {
 					JFrame someframe = new JFrame("Move " + ft.current_path + " to");
 					someframe.setBounds(100, 100, 230, 540);
 					someframe.setLayout(null);
-					someframe.getContentPane().setBackground(new Color(0xa4c5fc));
-					fm_filestree ft2 = new fm_filestree(mc, someframe);
+
+					fm_filestree ft2 = new fm_filestree(mc, someframe, null);
 					JButton btnMove = new JButton("Move to");
 					btnMove.setBounds(10, 470, 200, 20);
 					fm_buttonbar_event be = new fm_buttonbar_event(mc, ft2);
@@ -95,8 +95,8 @@ public class fm_buttonbar_event implements ActionListener {
 					JFrame someframe = new JFrame("Copy " + ft.current_path + " to");
 					someframe.setBounds(100, 100, 230, 540);
 					someframe.setLayout(null);
-					someframe.getContentPane().setBackground(new Color(0xa4c5fc));
-					fm_filestree ft2 = new fm_filestree(mc, someframe);
+
+					fm_filestree ft2 = new fm_filestree(mc, someframe, null);
 					JButton btnCopy = new JButton("Copy to");
 					btnCopy.setBounds(10, 470, 200, 20);
 					fm_buttonbar_event be = new fm_buttonbar_event(mc, ft2);

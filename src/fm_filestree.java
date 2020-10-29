@@ -1,9 +1,9 @@
-import java.awt.Color;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.border.EmptyBorder;
@@ -17,13 +17,13 @@ import javax.swing.tree.TreeSelectionModel;
 public class fm_filestree {
 	JFrame frame;
 	String titleframe;
-	public fm_filestree(filemanager m, JFrame f){
+	public fm_filestree(filemanager m, JFrame f, JPanel panel){
 		mc=m;
 		frame=f;
 		titleframe=f.getTitle();
-		
+
 		loadTree();
-		
+
 		internalTree=new JTree(treeModel);
 		internalTree.putClientProperty("JTree.lineStyle", "Angeled");
 		internalTree.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -31,22 +31,24 @@ public class fm_filestree {
 		internalTree.addTreeWillExpandListener(event);
 		internalTree.addTreeSelectionListener(event);
 		internalTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-		
+
 		treeModel.addTreeModelListener(new fm_TreeModelListener(mc,this));
-		
+
 		renderer = new fm_renderer(mc);
 		internalTree.setCellRenderer(renderer);
-		
+
 		threepanel = new JScrollPane(internalTree);
-		threepanel.setBackground(new Color(255,255,255));
 		threepanel.setBounds(10, 10, 200, 420);
-		
-		btnCreate=new JButton("Create directory");
+
+		java.awt.Container container;
+		container = (panel == null) ? f : panel;
+
+		btnCreate = new JButton("Create directory");
 		btnCreate.setBounds(10, 440, 200, 20);
-		btnCreate.addActionListener(new fm_createdir_event(mc,this));
-		
-		f.add(threepanel);
-		f.add(btnCreate);
+		btnCreate.addActionListener(new fm_createdir_event(mc, this));
+
+		container.add(btnCreate, java.awt.BorderLayout.SOUTH);
+		container.add(threepanel, java.awt.BorderLayout.CENTER);
 	}
 	public void loadTree(){
 		root=new DefaultMutableTreeNode();
@@ -69,7 +71,7 @@ public class fm_filestree {
 			}*/
 			root.add(Drive);
 		}
-		
+
 		treeModel = new DefaultTreeModel(root);
         treeModel.setAsksAllowsChildren(true);
         if(internalTree!=null) internalTree.setModel(treeModel);
@@ -78,20 +80,20 @@ public class fm_filestree {
 		boolean mainframe=false;
 		if(this==mc.fm_frame.ft) mainframe=true;
 		if(text==null) text="/";
-		
+
 		frame.setTitle(titleframe+": "+text);
-		
+
 		if(mainframe){
-			mc.fm_frame.cpath.setText(text);
+			mc.fm_frame.getCurrentPath().setText(text);
 		}
 		if(text.equals("~")) {
 			current_path=null;
-			if(mainframe) mc.fm_frame.btnCreateFile.setEnabled(true);
+			if(mainframe) mc.fm_frame.getCreateFileButton().setEnabled(true);
 		}else {
 			current_path=Paths.get(text);
-			if(mainframe) mc.fm_frame.btnCreateFile.setEnabled(!current_path.toFile().isFile());
+			if(mainframe) mc.fm_frame.getCreateFileButton().setEnabled(!current_path.toFile().isFile());
 		}
-		if(mainframe) mc.fm_frame.label.setText(new fm_fileinfo(current_path,mc).getData());
+		if(mainframe) mc.fm_frame.getTextPane().setText(new fm_fileinfo(current_path,mc).getData());
 		renderer.open_row=internalTree.getRowForPath(LastTreePath);
 	}
 	public void addObject(DefaultMutableTreeNode parent,
