@@ -22,7 +22,7 @@ public class CreateDirectoryEvent implements ActionListener {
 		File newFolder = new File(newPath);
 
 		if(newFolder.mkdir()){
-			filesTree.addObject(null, newFolder.getName()+File.pathSeparator, true, true);
+			filesTree.addObject(null, newFolder.getName()+File.separator, true, true);
 			filesTree.event.SyncPaths(filesTree.internalTree.getSelectionPath(), true);
 		}else{
 			filemanager.ShowMessage("Failed to create directory","Couldn't create directory.");
