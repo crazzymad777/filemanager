@@ -28,10 +28,10 @@ public class ButtonbarEvent implements ActionListener {
 				String name = filemanager.ShowInputMessage("New file", "Enter name of new file:");
 				if (name == null) return;
 				String newPath;
-				if (filesTree.current_path == null) {
+				if (filesTree.currentPath == null) {
 					newPath = "/" + name;
 				} else {
-					newPath = filesTree.current_path + "/" + name;
+					newPath = filesTree.currentPath + "/" + name;
 				}
 				File newFile = new File(newPath);
 				try {
@@ -51,21 +51,21 @@ public class ButtonbarEvent implements ActionListener {
 			case "Rename": {
 				String name = filemanager.ShowInputMessage("Rename", "Enter new name file/directory:");
 				if (name == null) return;
-				if (filesTree.current_path == null) return;
+				if (filesTree.currentPath == null) return;
 
 				String newPath;
-				if (!filesTree.current_path.toFile().isFile()) {
-					newPath = filesTree.current_path + "/" + name;
+				if (!filesTree.currentPath.toFile().isFile()) {
+					newPath = filesTree.currentPath + "/" + name;
 				} else {
-					newPath = filesTree.current_path.getParent().toString() + "/" + name;
+					newPath = filesTree.currentPath.getParent().toString() + "/" + name;
 				}
 
-				File file = filesTree.current_path.toFile();
+				File file = filesTree.currentPath.toFile();
 				File file2 = new File(newPath);
 				if (file2.exists()) {
 					filemanager.ShowMessage("Failed to rename file", "File " + name + " exist.");
 				} else if (!file.renameTo(file2)) {
-					filemanager.ShowMessage("Failed to rename file", "Couldn't rename file " + filesTree.current_path + " to " + newPath + ".");
+					filemanager.ShowMessage("Failed to rename file", "Couldn't rename file " + filesTree.currentPath + " to " + newPath + ".");
 				} else {
 					//ft.LastTreePath=ft.internalTree.getSelectionPath().getParentPath().pathByAddingChild(name);
 					filesTree.renameNode(filesTree.internalTree.getSelectionPath(), name);
@@ -74,8 +74,8 @@ public class ButtonbarEvent implements ActionListener {
 				break;
 			}
 			case "Move":
-				if (filesTree.current_path != null) {
-					JFrame frame = new JFrame("Move " + filesTree.current_path + " to");
+				if (filesTree.currentPath != null) {
+					JFrame frame = new JFrame("Move " + filesTree.currentPath + " to");
 					frame.setBounds(100, 100, 230, 540);
 					frame.setLayout(null);
 
@@ -83,7 +83,7 @@ public class ButtonbarEvent implements ActionListener {
 					JButton btnMove = new JButton("Move to");
 					btnMove.setBounds(10, 470, 200, 20);
 					ButtonbarEvent buttonEvent = new ButtonbarEvent(filemanager, ft2);
-					buttonEvent.currentPath = filesTree.current_path.toString();
+					buttonEvent.currentPath = filesTree.currentPath.toString();
 					btnMove.addActionListener(buttonEvent);
 					frame.add(btnMove);
 
@@ -91,8 +91,8 @@ public class ButtonbarEvent implements ActionListener {
 				}
 				break;
 			case "Copy":
-				if (filesTree.current_path != null) {
-					JFrame frame = new JFrame("Copy " + filesTree.current_path + " to");
+				if (filesTree.currentPath != null) {
+					JFrame frame = new JFrame("Copy " + filesTree.currentPath + " to");
 					frame.setBounds(100, 100, 230, 540);
 					frame.setLayout(null);
 
@@ -100,7 +100,7 @@ public class ButtonbarEvent implements ActionListener {
 					JButton btnCopy = new JButton("Copy to");
 					btnCopy.setBounds(10, 470, 200, 20);
 					ButtonbarEvent be = new ButtonbarEvent(filemanager, ft2);
-					be.currentPath = filesTree.current_path.toString();
+					be.currentPath = filesTree.currentPath.toString();
 					btnCopy.addActionListener(be);
 					frame.add(btnCopy);
 
@@ -108,24 +108,24 @@ public class ButtonbarEvent implements ActionListener {
 				}
 				break;
 			case "Remove":
-				if (filesTree.current_path != null) {
-					int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure that you want to delete " + filesTree.current_path + "?", "Confirm", JOptionPane.YES_NO_OPTION);
+				if (filesTree.currentPath != null) {
+					int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure that you want to delete " + filesTree.currentPath + "?", "Confirm", JOptionPane.YES_NO_OPTION);
 					if (dialogResult == JOptionPane.YES_OPTION) {
-						File file = new File(filesTree.current_path.toString());
+						File file = new File(filesTree.currentPath.toString());
 						if (file.delete()) {
 							TreePath treePath = filesTree.LastTreePath;
 							filesTree.removeNode(treePath);
 						} else {
-							filemanager.ShowMessage("Failed to delete file", "Couldn't delete file " + filesTree.current_path + ".");
+							filemanager.ShowMessage("Failed to delete file", "Couldn't delete file " + filesTree.currentPath + ".");
 						}
 					}
 				}
 				break;
 			case "Copy to":
-				if (filesTree.current_path != null) {
+				if (filesTree.currentPath != null) {
 					if (currentPath == null) return;
 					String newPath;
-					newPath = filesTree.current_path + "/" + Paths.get(currentPath).toFile().getName();
+					newPath = filesTree.currentPath + "/" + Paths.get(currentPath).toFile().getName();
 					try {
 						Files.copy(Paths.get(currentPath), Paths.get(newPath), COPY_ATTRIBUTES);
 					} catch (IOException e) {
@@ -135,10 +135,10 @@ public class ButtonbarEvent implements ActionListener {
 				filesTree.frame.dispose();
 				break;
 			case "Move to":
-				if (filesTree.current_path != null) {
+				if (filesTree.currentPath != null) {
 					if (currentPath == null) return;
 					String newPath;
-					newPath = filesTree.current_path + "/" + Paths.get(currentPath).toFile().getName();
+					newPath = filesTree.currentPath + "/" + Paths.get(currentPath).toFile().getName();
 					try {
 						if (!(new File(newPath).exists())) {
 							Files.move(Paths.get(currentPath), Paths.get(newPath));

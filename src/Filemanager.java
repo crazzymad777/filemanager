@@ -16,10 +16,10 @@ public class Filemanager {
 		} catch(Exception ignored){}
 
 		Filemanager m=new Filemanager();
-		m.filemanager_form.filesTree.SetCurrentPath("~");
+		m.mainForm.filesTree.SetCurrentPath("~");
 	}
 	public Filemanager(){
-        filemanager_form =new MainForm(this);
+        mainForm =new MainForm(this);
 	}
 	public String[] getRootDirectories(){
 		FileSystem fileSystem = FileSystems.getDefault();
@@ -40,6 +40,6 @@ public class Filemanager {
     {
         JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
-	
-	MainForm filemanager_form;
+
+	MainForm mainForm;
 }

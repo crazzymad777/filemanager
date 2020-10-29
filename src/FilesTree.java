@@ -16,43 +16,43 @@ import javax.swing.tree.TreeSelectionModel;
 
 public class FilesTree {
 	JFrame frame;
-	String titleframe;
-	public FilesTree(Filemanager m, JFrame f, JPanel panel){
-		mc=m;
-		frame=f;
-		titleframe=f.getTitle();
+	String frameTitle;
+	public FilesTree(Filemanager filemanager, JFrame frame, JPanel panel){
+		this.filemanager = filemanager;
+		this.frameTitle = frame.getTitle();
+		this.frame = frame;
 
 		loadTree();
 
-		internalTree=new JTree(treeModel);
+		internalTree = new JTree(treeModel);
 		internalTree.putClientProperty("JTree.lineStyle", "Angeled");
 		internalTree.setBorder(new EmptyBorder(10, 10, 10, 10));
-		event=new TreeEvents(mc,this);
+		event = new TreeEvents(this.filemanager,this);
 		internalTree.addTreeWillExpandListener(event);
 		internalTree.addTreeSelectionListener(event);
 		internalTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 
-		treeModel.addTreeModelListener(new FilesTreeModelListener(mc,this));
+		treeModel.addTreeModelListener(new FilesTreeModelListener(this.filemanager,this));
 
-		renderer = new TreeRenderer(mc);
+		renderer = new TreeRenderer(this.filemanager);
 		internalTree.setCellRenderer(renderer);
 
-		threepanel = new JScrollPane(internalTree);
-		threepanel.setBounds(10, 10, 200, 420);
+		treePanel = new JScrollPane(internalTree);
+		treePanel.setBounds(10, 10, 200, 420);
 
 		java.awt.Container container;
-		container = (panel == null) ? f : panel;
+		container = (panel == null) ? frame : panel;
 
 		btnCreate = new JButton("Create directory");
 		btnCreate.setBounds(10, 440, 200, 20);
-		btnCreate.addActionListener(new CreateDirectoryEvent(mc, this));
+		btnCreate.addActionListener(new CreateDirectoryEvent(this.filemanager, this));
 
 		container.add(btnCreate, java.awt.BorderLayout.SOUTH);
-		container.add(threepanel, java.awt.BorderLayout.CENTER);
+		container.add(treePanel, java.awt.BorderLayout.CENTER);
 	}
 	public void loadTree(){
-		root=new DefaultMutableTreeNode();
-		String[] dirs=mc.getRootDirectories();
+		rootNode =new DefaultMutableTreeNode();
+		String[] dirs= filemanager.getRootDirectories();
 		for (String name : dirs) {
 			DefaultMutableTreeNode Drive = new DefaultMutableTreeNode(name,true);
 			/*String[] directories = new File(name).list();
@@ -69,31 +69,31 @@ public class FilesTree {
 					}
 				}
 			}*/
-			root.add(Drive);
+			rootNode.add(Drive);
 		}
 
-		treeModel = new DefaultTreeModel(root);
+		treeModel = new DefaultTreeModel(rootNode);
         treeModel.setAsksAllowsChildren(true);
         if(internalTree!=null) internalTree.setModel(treeModel);
 	}
 	public void SetCurrentPath(String text){
-		boolean mainframe=false;
-		if(this==mc.filemanager_form.filesTree) mainframe=true;
-		if(text==null) text="/";
+		boolean mainframe = false;
+		if(this == filemanager.mainForm.filesTree) mainframe = true;
+		if(text == null) text="/";
 
-		frame.setTitle(titleframe+": "+text);
+		frame.setTitle(frameTitle +": "+text);
 
 		if(mainframe){
-			mc.filemanager_form.getCurrentPath().setText(text);
+			filemanager.mainForm.getCurrentPath().setText(text);
 		}
 		if(text.equals("~")) {
-			current_path=null;
-			if(mainframe) mc.filemanager_form.getCreateFileButton().setEnabled(true);
+			currentPath =null;
+			if(mainframe) filemanager.mainForm.getCreateFileButton().setEnabled(true);
 		}else {
-			current_path=Paths.get(text);
-			if(mainframe) mc.filemanager_form.getCreateFileButton().setEnabled(!current_path.toFile().isFile());
+			currentPath =Paths.get(text);
+			if(mainframe) filemanager.mainForm.getCreateFileButton().setEnabled(!currentPath.toFile().isFile());
 		}
-		if(mainframe) mc.filemanager_form.getTextPane().setText(new FileInfo(current_path,mc).getData());
+		if(mainframe) filemanager.mainForm.getTextPane().setText(new FileInfo(currentPath, filemanager).getData());
 		renderer.openedRow =internalTree.getRowForPath(LastTreePath);
 	}
 	public void addObject(DefaultMutableTreeNode parent,
@@ -105,7 +105,7 @@ public class FilesTree {
 		if (parent == null) {
 			TreePath parentPath = internalTree.getSelectionPath();
 			if (parentPath == null) {
-				parent = root;
+				parent = rootNode;
 	        } else {
 	        	parent = (DefaultMutableTreeNode)
 	                         (parentPath.getLastPathComponent());
@@ -129,25 +129,26 @@ public class FilesTree {
             }
         }
     }
-	public void renameNode(TreePath tp,String obj) {
-        if (tp != null) {
+	public void renameNode(TreePath treePath, String object) {
+        if (treePath != null) {
             DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode)
-                         (tp.getLastPathComponent());
+                         (treePath.getLastPathComponent());
             MutableTreeNode parent = (MutableTreeNode)(currentNode.getParent());
             if (parent != null) {
-            	currentNode.setUserObject(obj);
+            	currentNode.setUserObject(object);
             	treeModel.nodeChanged(currentNode);
             }
         }
     }
+
 	DefaultTreeModel treeModel;
-    DefaultMutableTreeNode root;
-	TreePath LastTreePath=null;
+    DefaultMutableTreeNode rootNode;
+	TreePath LastTreePath = null;
 	JTree internalTree;
 	JButton btnCreate;
-	JScrollPane threepanel;
+	JScrollPane treePanel;
 	TreeEvents event;
 	TreeRenderer renderer;
-    Path current_path=null;
-	Filemanager mc;
+    Path currentPath = null;
+	Filemanager filemanager;
 }

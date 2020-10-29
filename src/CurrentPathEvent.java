@@ -13,8 +13,8 @@ public class CurrentPathEvent implements ActionListener {
 	}
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		if(filesTree.current_path != null){
- 		   Path path = filesTree.current_path.getParent();
+		if(filesTree.currentPath != null){
+ 		   Path path = filesTree.currentPath.getParent();
  		   if(path != null){
 			   filesTree.SetCurrentPath(path.toString());
  		   }else{

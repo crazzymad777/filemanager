@@ -14,15 +14,15 @@ public class CreateDirectoryEvent implements ActionListener {
 		String name = filemanager.ShowInputMessage("New directory", "Enter name of new directory:");
 		if(name == null) return;
 		String newPath;
-		if(filesTree.current_path==null){
+		if(filesTree.currentPath ==null){
 			newPath = "/" + name;
 		}else{
-			newPath = filesTree.current_path + "/" + name;
+			newPath = filesTree.currentPath + "/" + name;
 		}
 		File newFolder = new File(newPath);
 
 		if(newFolder.mkdir()){
-			filesTree.addObject(null, newFolder.getName()+"\\", true, true);
+			filesTree.addObject(null, newFolder.getName()+File.pathSeparator, true, true);
 			filesTree.event.SyncPaths(filesTree.internalTree.getSelectionPath(), true);
 		}else{
 			filemanager.ShowMessage("Failed to create directory","Couldn't create directory.");
