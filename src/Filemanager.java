@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.io.File;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -16,28 +18,32 @@ public class Filemanager {
 		new Filemanager().mainForm.filesTree.SetCurrentPath("/");
 	}
 	public Filemanager(){
+        unix = new File("/").getPath().equals("/");
 		mainForm = new MainForm(this);
-		unix = new File("/").getPath().equals("/");
 	}
-	public String[] getRootsOrInRoot(){
-		File[] roots = File.listRoots();
-		List<String> list = new ArrayList<>();
-        for (File file : roots) {
-        	list.add(file.getPath());
+	public HashMap<File, String> getRootsOrInRoot(){
+		HashMap<File, String> map = new HashMap<>();
+
+        if (unix)
+        {
+            File[] filesInRoot = new File("/").listFiles();
+
+            for (File file : filesInRoot) {
+                if (file.isDirectory())
+                {
+                    map.put(file, file.getName());
+                }
+            }
         }
-        String[] retArray = new String[ list.size() ];
-		list.toArray( retArray );
+        else
+        {
+            File[] roots = File.listRoots();
 
-        if (retArray.length == 1)
-		{
-			if (retArray[0].equals(File.separator))
-			{
-				File root = new File(retArray[0]);
-				retArray = root.list();
-			}
-		}
-
-        return retArray;
+            for (File file : roots) {
+                map.put(file, file.getPath());
+            }
+        }
+        return map;
 	}
 	public String ShowInputMessage(String title,String body){
 		JFrame frame=new JFrame(title);

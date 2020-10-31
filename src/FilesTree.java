@@ -1,5 +1,7 @@
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -53,9 +55,9 @@ public class FilesTree {
 	public void loadTree(){
 		boolean unix = filemanager.unix;
 		rootNode = new DefaultMutableTreeNode(unix ? "/" : "", true);
-		String[] dirs = filemanager.getRootsOrInRoot();
-		for (String name : dirs) {
-			DefaultMutableTreeNode Drive = new DefaultMutableTreeNode(name,true);
+		HashMap<File, String> map = filemanager.getRootsOrInRoot();
+		for (HashMap.Entry<File, String> entry : map.entrySet()) {
+			DefaultMutableTreeNode Drive = new DefaultMutableTreeNode(entry.getValue(),true);
 			/*String[] directories = new File(name).list();
 			if(directories!=null){
 				for (String x : directories) {

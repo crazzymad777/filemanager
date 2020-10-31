@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -17,21 +18,31 @@ public class FileInfo {
 		this.filemanager = filemanager;
 		this.path = path;
 
-		String prefix = "";
-
 		data="<html><table>";
 		File file = new File("/");
-		String[] files;
+
+		HashMap<File, String> map;
+
 		if(path == null) {
 			if (filemanager.unix) {
-				files = file.list();
+				map = new HashMap<>();
+				File[] files = file.listFiles();
+				for (File fileInRoot : files)
+				{
+					map.put(fileInRoot, fileInRoot.getName());
+				}
 			} else {
-				files = filemanager.getRootsOrInRoot();
+				map = filemanager.getRootsOrInRoot();
 			}
 		}else{
-			if (!path.toString().equals("/")) prefix = path.toString() + File.separator;
 			file = path.toFile();
-			files = file.list();
+
+			map = new HashMap<>();
+			File[] files = file.listFiles();
+			for (File fileInRoot : files)
+			{
+				map.put(fileInRoot, fileInRoot.getName());
+			}
 		}
 		if(file.isFile()){
 			BasicFileAttributes basicFileAttributes;
@@ -52,13 +63,13 @@ public class FileInfo {
 				exception.printStackTrace();
 			}
 		}else{
-			if(files!=null){
-				if(files.length<1){
+			if(map!=null){
+				if(map.size()<1){
 					data = data + "<tr>No such files or directories in this directory.</tr>";
 				}else{
 					data = data + "<tr><td>Filename</td><td>Your Access</td><td>Last Modified</td></tr>";
-					for(String filename:files){
-						makeNote(new File( prefix + filename), filename);
+					for (HashMap.Entry<File, String> entry : map.entrySet()) {
+						makeNote(entry.getKey(), entry.getValue());
 					}
 				}
 			}else{
