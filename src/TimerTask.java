@@ -27,11 +27,8 @@ public class TimerTask extends java.util.TimerTask {
 			if(directories != null){
 				for (String x : directories) {
 					File file = new File(data+x);
-					if(!file.isFile()){
-						filesTree.addObject(node, x+File.separator, true, true);
-					}else{
-						filesTree.addObject(node, x, true, false);
-					}
+
+					filesTree.addObject(node, x, true, true);
 				}
 			}
 		}

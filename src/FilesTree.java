@@ -115,7 +115,7 @@ public class FilesTree {
 		
 		treeModel.insertNodeInto(childNode, parent, 
                 parent.getChildCount());
-		
+
 		if (shouldBeVisible) {
 			internalTree.scrollPathToVisible(new TreePath(childNode.getPath()));
 		}

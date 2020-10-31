@@ -34,13 +34,6 @@ public class Filemanager {
 			{
 				File root = new File(retArray[0]);
 				retArray = root.list();
-
-				String[] retArrayWithSlash = new String[ retArray.length ];
-                int i;
-                for (i = 0; i < retArray.length; i++)
-                    retArrayWithSlash[i] = retArray[i] + "/";
-
-                retArray = retArrayWithSlash;
 			}
 		}
 

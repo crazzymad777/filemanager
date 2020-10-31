@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Timer;
 
 import javax.swing.event.TreeExpansionEvent;
@@ -89,6 +90,8 @@ public class TreeEvents implements TreeSelectionListener,TreeWillExpandListener 
 			for(int i=1;i<number;i++){
 				DefaultMutableTreeNode node=(DefaultMutableTreeNode)object[i];
 				data.append(node.getUserObject().toString());
+				if(data.charAt(data.length()-1) != File.separatorChar)
+					data.append(File.separator);
 			}
 			if(number == 1) data = new StringBuilder("/");
 			if(bSet) filesTree.SetCurrentPath(data.toString());

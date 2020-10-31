@@ -1,3 +1,4 @@
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,9 +23,13 @@ public class FileInfo {
 		File file = new File("/");
 		String[] files;
 		if(path == null) {
-			files = filemanager.getRootsOrInRoot();
+			if (filemanager.unix) {
+				files = file.list();
+			} else {
+				files = filemanager.getRootsOrInRoot();
+			}
 		}else{
-			if (!path.toString().equals("/")) prefix = path.toString();
+			if (!path.toString().equals("/")) prefix = path.toString() + File.separator;
 			file = path.toFile();
 			files = file.list();
 		}
@@ -53,7 +58,7 @@ public class FileInfo {
 				}else{
 					data = data + "<tr><td>Filename</td><td>Your Access</td><td>Last Modified</td></tr>";
 					for(String filename:files){
-						makeNote(new File( prefix + "/" + filename));
+						makeNote(new File( prefix + filename), filename);
 					}
 				}
 			}else{
@@ -66,12 +71,17 @@ public class FileInfo {
 	enum FileType {
 		UNKNOWN_FILE_TYPE,
 		REGULAR_FILE,
-		DIRECTORY
+		DIRECTORY,
+		ROOT
 	}
 
-	public void makeNote(File file){
+	public void makeNote(File file, String filename){
 		FileType type;
-		if(file.isDirectory()){
+
+		if (file.getName().equals("")) {
+			data = data + ("<tr><td><b><font color=\"blue\">" + filename + "</b></td></font>");
+			type = FileType.ROOT;
+		}else if(file.isDirectory()){
 			data = data + ("<tr><td><b><font color=\"blue\">" + file.getName() + "</b></td></font>");
 			type = FileType.DIRECTORY;
 		}else if(!file.isFile()){
